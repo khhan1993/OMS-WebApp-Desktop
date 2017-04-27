@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Container, Dropdown, Header } from 'semantic-ui-react';
+import { Menu, Container, Dropdown, Header, Modal, Button, Input, Form } from 'semantic-ui-react';
 
 class Default extends React.Component {
 
@@ -27,12 +27,51 @@ class Default extends React.Component {
               </Dropdown.Menu>
             </Dropdown>
             <Menu.Menu position='right'>
-              <Menu.Item name='로그인' />
-              <Menu.Item name='회원가입' />
+              <Modal trigger={<Menu.Item name='로그인' />} size='small'>
+                <Header icon='sign in' content='로그인' />
+                <Modal.Content>
+                  <Form>
+                    <Form.Field>
+                      <label>이메일</label>
+                      <Input type="email" placeholder='이메일 입력' />
+                    </Form.Field>
+
+                    <Form.Field>
+                      <label>비밀번호</label>
+                      <Input type="password" placeholder='비밀번호 입력' />
+                    </Form.Field>
+                    <Button type='submit'>Submit</Button>
+                  </Form>
+                </Modal.Content>
+              </Modal>
+              <Modal trigger={<Menu.Item name='회원가입' />} size='small'>
+                <Header icon='add user' content='회원가입' />
+                <Modal.Content>
+                  <Form>
+                    <Form.Field>
+                      <label>이름</label>
+                      <Input type="text" placeholder='이름 입력' />
+                    </Form.Field>
+
+                    <Form.Field>
+                      <label>이메일</label>
+                      <Input type="email" placeholder='이메일 입력' />
+                    </Form.Field>
+
+                    <Form.Field>
+                      <label>비밀번호</label>
+                      <Input type="password" placeholder='비밀번호 입력' />
+                    </Form.Field>
+                    <Button type='submit'>Submit</Button>
+                  </Form>
+                </Modal.Content>
+              </Modal>
               <Menu.Item name='로그아웃' />
             </Menu.Menu>
           </Menu>
         </div>
+
+
 
         <br/>
 
