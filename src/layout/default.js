@@ -11,24 +11,19 @@ class Default extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       "name": "",
       "email": "",
       "password": ""
     };
-
-    this.handleSigninSubmit = this.handleSigninSubmit.bind(this);
-    this.handleSignoutClick = this.handleSignoutClick.bind(this);
-
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
 
   activeRoute(routeName) {
     return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   }
 
-  handleSigninSubmit(e) {
+  handleSigninSubmit = (e) => {
     e.preventDefault();
 
     let url = this.props.api_url + "/api/user?type=signin";
@@ -47,24 +42,24 @@ class Default extends React.Component {
     }).catch((error) => {
       alert(error.response.data.message);
     });
-  }
+  };
 
-  handleSignoutClick(e) {
+  handleSignoutClick = (e) => {
     browserHistory.push("/main");
     this.props.signOut();
-  }
+  };
 
-  handleEmailChange(e) {
+  handleEmailChange = (e) => {
     this.setState({
       "email": e.target.value
     });
-  }
+  };
 
-  handlePasswordChange(e) {
+  handlePasswordChange = (e) => {
     this.setState({
       "password": e.target.value
     });
-  }
+  };
 
   render() {
     return (
@@ -72,17 +67,22 @@ class Default extends React.Component {
         <div>
           <Menu pointing secondary>
             <Menu.Item name="주문관리시스템" />
+
             <Link to="/main"><Menu.Item name='메인' className={this.activeRoute("/main")} /></Link>
 
-
             {this.props.jwt !== null &&
-            <Link to="/group"><Menu.Item name='그룹' className={this.activeRoute("/group")} /></Link>
+            <Dropdown item text="그룹" className={this.activeRoute("/group")}>
+              <Dropdown.Menu>
+                <Link to="/group/list"><Dropdown.Item>그룹 목록</Dropdown.Item></Link>
+                <Link to="/group/create"><Dropdown.Item>그룹 생성</Dropdown.Item></Link>
+              </Dropdown.Menu>
+            </Dropdown>
             }
 
             {this.props.jwt !== null && this.props.group_id !== null &&
-            <Dropdown item text='주문'>
+            <Dropdown item text='주문' className={this.activeRoute("/order")}>
               <Dropdown.Menu>
-                <Dropdown.Item>주문 입력</Dropdown.Item>
+                <Link to="/order/request"><Dropdown.Item>주문 입력</Dropdown.Item></Link>
                 <Dropdown.Item>주문 내역</Dropdown.Item>
                 {this.props.role > 0 &&
                 <Dropdown.Item>주문 처리</Dropdown.Item>
@@ -100,9 +100,9 @@ class Default extends React.Component {
             }
 
             {this.props.jwt !== null && this.props.group_id !== null && this.props.role > 1 &&
-            <Dropdown item text='관리'>
+            <Dropdown item text='관리' className={this.activeRoute("/manage")}>
               <Dropdown.Menu>
-                <Dropdown.Item>메뉴 관리</Dropdown.Item>
+                <Link to="/manage/menu"><Dropdown.Item>메뉴 관리</Dropdown.Item></Link>
                 <Dropdown.Item>세트메뉴 관리</Dropdown.Item>
                 <Dropdown.Item>멤버 관리</Dropdown.Item>
               </Dropdown.Menu>
