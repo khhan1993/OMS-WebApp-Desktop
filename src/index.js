@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 import routes from './config/routes';
 import reducer from './reducer';
 
-import 'font-awesome/css/font-awesome.css';
 import 'semantic-ui-css/semantic.min.css';
 import '../public/style.css';
 

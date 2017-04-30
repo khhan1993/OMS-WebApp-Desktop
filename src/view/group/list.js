@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Table, Grid, Header, Icon, Button } from 'semantic-ui-react';
 
-import authAction from '../action/index';
+import authAction from '../../action/index';
 const { selectGroup } = authAction.auth;
 
-class Group extends React.Component {
+class GroupList extends React.Component {
 
   constructor(props) {
     super(props);
@@ -15,10 +15,7 @@ class Group extends React.Component {
       "list": [],
       "pagination": [],
       "cur_page": 1
-    };
-
-    this.handleGetGroupListClick = this.handleGetGroupListClick.bind(this);
-    this.handleGroupSelectClick = this.handleGroupSelectClick.bind(this);
+    }
   }
 
   componentDidMount() {
@@ -40,7 +37,7 @@ class Group extends React.Component {
       });
   };
 
-  handleGetGroupListClick(page_num) {
+  handleGetGroupListClick = (page_num) => {
     this.setState({
       "cur_page": page_num
     });
@@ -48,9 +45,9 @@ class Group extends React.Component {
     this.getGroupList(page_num);
   };
 
-  handleGroupSelectClick(data) {
+  handleGroupSelectClick = (data) => {
     this.props.selectGroup(data.group_id, data.role);
-  }
+  };
 
   getDateString(dateInfo) {
     let dateObj = new Date(dateInfo);
@@ -134,4 +131,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Group);
+)(GroupList);
