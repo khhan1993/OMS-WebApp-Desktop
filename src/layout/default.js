@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Container, Dropdown, Header, Modal, Button, Input, Form } from 'semantic-ui-react';
+import { Menu, Container, Dropdown, Header, Modal, Button, Input, Form} from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Link, browserHistory } from 'react-router';
@@ -15,7 +15,8 @@ class Default extends React.Component {
     this.state = {
       "name": "",
       "email": "",
-      "password": ""
+      "password": "",
+      "is_in_process": false
     };
   }
 
@@ -25,6 +26,10 @@ class Default extends React.Component {
 
   handleSigninSubmit = (e) => {
     e.preventDefault();
+
+    this.setState({
+      "is_in_process": true
+    });
 
     let url = this.props.api_url + "/api/user?type=signin";
 
@@ -36,11 +41,15 @@ class Default extends React.Component {
       this.setState({
         "name": "",
         "email": "",
-        "password": ""
+        "password": "",
+        "is_in_process": false
       });
       browserHistory.push("/group");
     }).catch((error) => {
       alert(error.response.data.message);
+      this.setState({
+        "is_in_process": false
+      });
     });
   };
 
@@ -103,7 +112,7 @@ class Default extends React.Component {
             <Dropdown item text='관리' className={this.activeRoute("/manage")}>
               <Dropdown.Menu>
                 <Link to="/manage/menu"><Dropdown.Item>메뉴 관리</Dropdown.Item></Link>
-                <Dropdown.Item>세트메뉴 관리</Dropdown.Item>
+                <Link to="/manage/setmenu"><Dropdown.Item>세트메뉴 관리</Dropdown.Item></Link>
                 <Dropdown.Item>멤버 관리</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -124,7 +133,7 @@ class Default extends React.Component {
                       <label>비밀번호</label>
                       <Input type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder='비밀번호 입력' required />
                     </Form.Field>
-                    <Button type='submit'>로그인</Button>
+                    <Button type='submit' loading={this.state.is_in_process}>로그인</Button>
                   </Form>
                 </Modal.Content>
               </Modal>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Grid, Header, Button, Form, Input, Segment } from 'semantic-ui-react';
+import { Grid, Header, Button, Form, Input, Segment, Loader, Dimmer } from 'semantic-ui-react';
 import axios from 'axios';
 
 class GroupCreate extends React.Component {
@@ -9,7 +9,8 @@ class GroupCreate extends React.Component {
     super(props);
 
     this.state = {
-      "name": ""
+      "name": "",
+      "is_on_creation": false
     };
   }
 
@@ -22,6 +23,10 @@ class GroupCreate extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
+    this.setState({
+      "is_on_creation": true
+    });
+
     let url = this.props.api_url + "/api/group?jwt=" + this.props.jwt;
     axios.post(url, {
       "name": this.state.name
@@ -33,7 +38,8 @@ class GroupCreate extends React.Component {
       alert(alert_msg);
 
       this.setState({
-        "name": ""
+        "name": "",
+        "is_on_creation": false
       });
     }).catch((error) => {
       alert(error.response.data.message);
@@ -46,6 +52,10 @@ class GroupCreate extends React.Component {
         <Grid.Row centered>
           <Grid.Column width={6}>
             <Segment>
+              <Dimmer active={this.state.is_on_creation} inverted>
+                <Loader active={this.state.is_on_creation}>생성 중...</Loader>
+              </Dimmer>
+
               <Header as="h2" textAlign="center">새 그룹 생성</Header>
               <Form onSubmit={this.handleSubmit}>
                 <Form.Field>

@@ -4,6 +4,7 @@ import { Grid, Header, Button, Form, Input, Table, Icon, Segment, Loader, Dimmer
 import axios from 'axios';
 
 class ManageMenu extends React.Component {
+
   constructor(props) {
     super(props);
 
@@ -75,7 +76,7 @@ class ManageMenu extends React.Component {
   };
 
   handleChangePrice = (menuItem, e) => {
-    menuItem.price = parseInt(e.target.value);
+    menuItem.price = parseInt(e.target.value, 10);
   };
 
   handleOnBlur = (menuItem) => {
@@ -137,7 +138,7 @@ class ManageMenu extends React.Component {
           <Grid.Column>
             <Segment>
               <Dimmer active={this.state.is_list_loading} inverted>
-                <Loader active={this.state.is_list_loading}>정보 업데이트 중...</Loader>
+                <Loader active={this.state.is_list_loading} />
               </Dimmer>
 
               <Header as="h2" textAlign="center">메뉴 목록</Header>
@@ -159,7 +160,7 @@ class ManageMenu extends React.Component {
           <Grid.Column>
             <Segment>
               <Dimmer active={this.state.is_menu_on_creation} inverted>
-                <Loader active={this.state.is_menu_on_creation}>새 메뉴 등록 중...</Loader>
+                <Loader active={this.state.is_menu_on_creation} />
               </Dimmer>
 
               <Header as="h2" textAlign="center">새 메뉴 등록</Header>

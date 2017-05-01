@@ -8,6 +8,7 @@ import GroupListView from '../view/group/list';
 import GroupCreateView from '../view/group/create';
 import OrderRequestView from '../view/order/request';
 import ManageMenuView from '../view/manage/menu';
+import ManageSetmenuView from '../view/manage/setmenu';
 
 export default (
   <Router history={browserHistory}>
@@ -22,6 +23,7 @@ export default (
       </Route>
       <Route path="manage">
         <Route path="menu" component={ManageMenuView} />
+        <Route path="setmenu" component={ManageSetmenuView} />
       </Route>
       <IndexRedirect to="main" />
     </Route>
