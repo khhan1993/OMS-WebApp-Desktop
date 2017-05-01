@@ -1,61 +1,251 @@
 import React from 'react';
-import { Table, Grid, Header, Icon } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { Grid, Header, Button, Form, Input, Table, Icon, Segment, Loader, Dimmer } from 'semantic-ui-react';
+import axios from 'axios';
 
 class OrderRequest extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      "menu_list": [],
+      "setmenu_list": [],
+      "is_menu_list_loading": true,
+      "is_setmenu_list_loading": true,
+      "is_in_order_processing": false,
+      "table_name": "",
+      "total_price": 0
+    };
+  }
+
+  componentDidMount() {
+    this.getMenuList();
+    this.getSetmenuList();
+  }
+
+  getMenuList = () => {
+    let url = this.props.api_url + "/api/menu?jwt=" + this.props.jwt + "&group_id=" + (this.props.group_id).toString();
+
+    axios.get(url)
+      .then((response) => {
+        this.setState({
+          "menu_list": response.data.list,
+          "is_menu_list_loading": false
+        });
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  getSetmenuList = () => {
+    let url = this.props.api_url + "/api/setmenu?jwt=" + this.props.jwt + "&group_id=" + (this.props.group_id).toString();
+
+    axios.get(url)
+      .then((response) => {
+        this.setState({
+          "setmenu_list": response.data.list,
+          "is_setmenu_list_loading": false
+        });
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  handleMenuItemAdjust = (menuItem, value) => {
+    if(isNaN(menuItem.amount)) {
+      menuItem.amount = 0;
+    }
+
+    menuItem.amount += value;
+
+    this.setState({
+      "menu_list": this.state.menu_list,
+      "total_price": this.state.total_price + (value * menuItem.price)
+    });
+  };
+
+  handleSetmenuItemAdjust = (setmenuItem, value) => {
+    if(isNaN(setmenuItem.amount)) {
+      setmenuItem.amount = 0;
+    }
+
+    setmenuItem.amount += value;
+
+    this.setState({
+      "setmenu_list": this.state.setmenu_list,
+      "total_price": this.state.total_price + (value * setmenuItem.price)
+    });
+  };
+
+  handleTableNameChange = (e) => {
+    this.setState({
+      "table_name": e.target.value
+    })
+  };
+
+  handleOnSubmit = (e) => {
+    e.preventDefault();
+
+    let url = this.props.api_url + "/api/order?jwt=" + this.props.jwt;
+
+    let menu_list = [];
+    let orig_menu_list = [];
+    for(let menu of this.state.menu_list) {
+      if(!isNaN(menu.amount) && menu.amount !== 0) {
+        menu_list.push({
+          "id": menu.id,
+          "amount": menu.amount
+        });
+
+        delete menu.amount;
+      }
+
+      orig_menu_list.push(menu);
+    }
+
+    let setmenu_list = [];
+    let orig_setmenu_list = [];
+    for(let setmenu of this.state.setmenu_list) {
+      if(!isNaN(setmenu.amount) && setmenu.amount !== 0) {
+        setmenu_list.push({
+          "id": setmenu.id,
+          "amount": setmenu.amount
+        });
+
+        delete setmenu.amount;
+      }
+
+      orig_setmenu_list.push(setmenu);
+    }
+
+    if(menu_list.length === 0 && setmenu_list.length === 0) {
+      alert("선택된 메뉴/세트메뉴 가 하나도 없습니다!");
+    }
+    else {
+      this.setState({
+        "is_in_order_processing": true
+      });
+
+      axios.post(url, {
+        "group_id": this.props.group_id,
+        "table_id": this.state.table_name,
+        "menu_list": menu_list,
+        "setmenu_list": setmenu_list
+      }).then((response) => {
+        let alert_msg = "주문 요청이 완료되었습니다.\n";
+        alert_msg += "주문번호 : " + (response.data.order_id).toString() + "\n";
+        alert_msg += "총 금액 : " + (response.data.total_price).toString();
+
+        alert(alert_msg);
+
+        this.setState({
+          "is_in_order_processing": false,
+          "table_name": "",
+          "total_price": 0,
+          "menu_list": orig_menu_list,
+          "setmenu_list": orig_setmenu_list
+        });
+      }).catch((error) => {
+        alert(error.response.data.message);
+
+        this.setState({
+          "is_in_order_processing": false
+        });
+      });
+    }
+  };
+
   render() {
+    let menuItems = this.state.menu_list.map((menuItem) => {
+      if(parseInt(menuItem.is_enabled, 10) === 1) {
+        return (
+          <Table.Row key={menuItem.id}>
+            <Table.Cell>{menuItem.name}</Table.Cell>
+            <Table.Cell>{menuItem.price}</Table.Cell>
+            <Table.Cell>{menuItem.amount}</Table.Cell>
+            <Table.Cell onClick={(e) => this.handleMenuItemAdjust(menuItem, 1)}><Icon name='plus' size='large' /></Table.Cell>
+            <Table.Cell onClick={(e) => this.handleMenuItemAdjust(menuItem, -1)}><Icon name='minus' size='large' /></Table.Cell>
+          </Table.Row>
+        );
+      }
+      else {
+        return null;
+      }
+    });
+
+    let setmenuItems = this.state.setmenu_list.map((setmenuItem) => {
+      if(parseInt(setmenuItem.is_enabled, 10) === 1) {
+        return (
+          <Table.Row key={setmenuItem.id}>
+            <Table.Cell>{setmenuItem.name}</Table.Cell>
+            <Table.Cell>{setmenuItem.price}</Table.Cell>
+            <Table.Cell>{setmenuItem.amount}</Table.Cell>
+            <Table.Cell onClick={(e) => this.handleSetmenuItemAdjust(setmenuItem, 1)}><Icon name='plus' size='large' /></Table.Cell>
+            <Table.Cell onClick={(e) => this.handleSetmenuItemAdjust(setmenuItem, -1)}><Icon name='minus' size='large' /></Table.Cell>
+          </Table.Row>
+        );
+      }
+      else {
+        return null;
+      }
+    });
+
     return (
       <Grid columns="equal">
         <Grid.Row centered>
-          <Grid.Column width={10}>
-            <Header as="h2" textAlign="center">메뉴 목록</Header>
-            <Table celled textAlign="center">
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>이름</Table.HeaderCell>
-                  <Table.HeaderCell>가격</Table.HeaderCell>
-                  <Table.HeaderCell>수량</Table.HeaderCell>
-                  <Table.HeaderCell colSpan="3">Control Buttons</Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
+          <Grid.Column width={8}>
+            <Segment>
+              <Dimmer active={this.state.is_setmenu_list_loading || this.state.is_menu_list_loading || this.state.is_in_order_processing} inverted>
+                <Loader active={this.state.is_setmenu_list_loading || this.state.is_menu_list_loading || this.state.is_in_order_processing} />
+              </Dimmer>
 
-              <Table.Body>
-                <Table.Row>
-                  <Table.Cell>Apples</Table.Cell>
-                  <Table.Cell>1000</Table.Cell>
-                  <Table.Cell>0</Table.Cell>
-                  <Table.Cell><Icon name='plus' size='big' /></Table.Cell>
-                  <Table.Cell><Icon name='minus' size='big' /></Table.Cell>
-                  <Table.Cell><Icon name='remove' size='big' /></Table.Cell>
-                </Table.Row>
-              </Table.Body>
-            </Table>
-          </Grid.Column>
-        </Grid.Row>
+              <Form onSubmit={this.handleOnSubmit}>
+                <Header as="h3" textAlign="center">메뉴 목록</Header>
+                <Table celled textAlign="center" size="small">
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell>이름</Table.HeaderCell>
+                      <Table.HeaderCell>가격</Table.HeaderCell>
+                      <Table.HeaderCell>수량</Table.HeaderCell>
+                      <Table.HeaderCell colSpan="2">수량 조절</Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
 
-        <Grid.Row centered>
-          <Grid.Column width={10}>
-            <Header as="h2" textAlign="center">세트메뉴 목록</Header>
-            <Table celled textAlign="center">
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>이름</Table.HeaderCell>
-                  <Table.HeaderCell>가격</Table.HeaderCell>
-                  <Table.HeaderCell>수량</Table.HeaderCell>
-                  <Table.HeaderCell colSpan="3">Control Buttons</Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
+                  <Table.Body>
+                    {menuItems}
+                  </Table.Body>
+                </Table>
 
-              <Table.Body>
-                <Table.Row>
-                  <Table.Cell>Apples</Table.Cell>
-                  <Table.Cell>1000</Table.Cell>
-                  <Table.Cell>0</Table.Cell>
-                  <Table.Cell><Icon name='plus' size='big' /></Table.Cell>
-                  <Table.Cell><Icon name='minus' size='big' /></Table.Cell>
-                  <Table.Cell><Icon name='remove' size='big' /></Table.Cell>
-                </Table.Row>
-              </Table.Body>
-            </Table>
+                <Header as="h3" textAlign="center">세트메뉴 목록</Header>
+                <Table celled textAlign="center" size="small">
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell>이름</Table.HeaderCell>
+                      <Table.HeaderCell>가격</Table.HeaderCell>
+                      <Table.HeaderCell>수량</Table.HeaderCell>
+                      <Table.HeaderCell colSpan="2">수량 조절</Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+
+                  <Table.Body>
+                    {setmenuItems}
+                  </Table.Body>
+                </Table>
+
+                <Header as="h3" textAlign="center">테이블 이름</Header>
+                <Input type="text" fluid value={this.state.table_name} onChange={this.handleTableNameChange} placeholder='테이블 이름 입력' required />
+
+                <br/>
+
+                <Button.Group fluid size='large'>
+                  <Button>총 가격 : {this.state.total_price}</Button>
+                  <Button primary type="submit">주문 요청</Button>
+                </Button.Group>
+              </Form>
+            </Segment>
           </Grid.Column>
         </Grid.Row>
       </Grid>
@@ -63,4 +253,14 @@ class OrderRequest extends React.Component {
   }
 }
 
-export default OrderRequest;
+const mapStateToProps = (state) => {
+  return {
+    "jwt": state.auth.jwt,
+    "api_url": state.auth.api_url,
+    "group_id": state.auth.group_id
+  }
+};
+
+export default connect(
+  mapStateToProps
+)(OrderRequest);

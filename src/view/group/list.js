@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Table, Grid, Header, Icon, Button } from 'semantic-ui-react';
+import { Table, Grid, Header, Icon, Button, Segment, Dimmer, Loader } from 'semantic-ui-react';
 
 import authAction from '../../action/index';
 const { selectGroup } = authAction.auth;
@@ -14,7 +14,8 @@ class GroupList extends React.Component {
     this.state = {
       "list": [],
       "pagination": [],
-      "cur_page": 1
+      "cur_page": 1,
+      "is_list_loading": true
     }
   }
 
@@ -29,7 +30,8 @@ class GroupList extends React.Component {
       .then((response) => {
         this.setState({
           "list": response.data.list,
-          "pagination": response.data.pagination
+          "pagination": response.data.pagination,
+          "is_list_loading": false
         });
       })
       .catch((error) => {
@@ -39,7 +41,8 @@ class GroupList extends React.Component {
 
   handleGetGroupListClick = (page_num) => {
     this.setState({
-      "cur_page": page_num
+      "cur_page": page_num,
+      "is_list_loading": true
     });
 
     this.getGroupList(page_num);
@@ -52,11 +55,11 @@ class GroupList extends React.Component {
   getDateString(dateInfo) {
     let dateObj = new Date(dateInfo);
 
-    let dateString = dateObj.getFullYear() + "년 ";
-    dateString += (dateObj.getMonth() + 1).toString() + "월 ";
-    dateString += dateObj.getDate() + "일 ";
-    dateString += dateObj.getHours() + "시 ";
-    dateString += dateObj.getMinutes() + "분";
+    let dateString = dateObj.getUTCFullYear() + "년 ";
+    dateString += (dateObj.getUTCMonth() + 1).toString() + "월 ";
+    dateString += dateObj.getUTCDate() + "일 ";
+    dateString += (parseInt(dateObj.getUTCHours(), 10) - (dateObj.getTimezoneOffset() / 60)).toString() + "시 ";
+    dateString += dateObj.getUTCMinutes() + "분";
 
     return dateString;
   };
@@ -82,29 +85,33 @@ class GroupList extends React.Component {
       <Grid columns="equal">
         <Grid.Row centered>
           <Grid.Column width={9}>
-            <Header as="h2" textAlign="center">그룹 목록</Header>
-            <Table celled textAlign="center">
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>#</Table.HeaderCell>
-                  <Table.HeaderCell>이름</Table.HeaderCell>
-                  <Table.HeaderCell>권한</Table.HeaderCell>
-                  <Table.HeaderCell>생성일</Table.HeaderCell>
-                  <Table.HeaderCell>선택</Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
+            <Segment>
+              <Dimmer active={this.state.is_list_loading} inverted>
+                <Loader active={this.state.is_list_loading}>목록 로딩 중...</Loader>
+              </Dimmer>
 
-              <Table.Body>
-                {rowItems}
-              </Table.Body>
-            </Table>
+              <Header as="h2" textAlign="center">그룹 목록</Header>
+              <Table celled textAlign="center">
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>#</Table.HeaderCell>
+                    <Table.HeaderCell>이름</Table.HeaderCell>
+                    <Table.HeaderCell>권한</Table.HeaderCell>
+                    <Table.HeaderCell>생성일</Table.HeaderCell>
+                    <Table.HeaderCell>선택</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+
+                <Table.Body>
+                  {rowItems}
+                </Table.Body>
+              </Table>
+
+              <Button.Group fluid>
+                {pageItems}
+              </Button.Group>
+            </Segment>
           </Grid.Column>
-        </Grid.Row>
-
-        <Grid.Row centered>
-          <Button.Group>
-            {pageItems}
-          </Button.Group>
         </Grid.Row>
       </Grid>
     )
