@@ -120,14 +120,14 @@ class OrderVerify extends React.Component {
       <Table.Row key={rowItem.id}>
         <Table.Cell>{rowItem.id}</Table.Cell>
         <Table.Cell>{rowItem.name}</Table.Cell>
-        <Table.Cell onClick={(e) => this.handleGetOrderInfo(rowItem)}>
+        <Table.Cell selectable onClick={(e) => this.handleGetOrderInfo(rowItem)}>
           <Label active={rowItem.is_loading === true}>눌러서 확인</Label>
         </Table.Cell>
         <Table.Cell>{rowItem.total_price}</Table.Cell>
         <Table.Cell>{rowItem.table_id}</Table.Cell>
         <Table.Cell>{this.getDateString(rowItem.created_at)}</Table.Cell>
-        <Table.Cell onClick={(e) => this.handleUpdateStatus(rowItem.id, 1)}><Icon name='checkmark' color="blue" size='large' /></Table.Cell>
-        <Table.Cell onClick={(e) => this.handleUpdateStatus(rowItem.id, 0)}><Icon name='remove' color="red" size='large' /></Table.Cell>
+        <Table.Cell selectable onClick={(e) => this.handleUpdateStatus(rowItem.id, 1)}><Icon name='checkmark' color="blue" size='large' /></Table.Cell>
+        <Table.Cell selectable onClick={(e) => this.handleUpdateStatus(rowItem.id, 0)}><Icon name='remove' color="red" size='large' /></Table.Cell>
       </Table.Row>
     );
 
@@ -146,7 +146,7 @@ class OrderVerify extends React.Component {
                 <Loader active={this.state.is_list_loading}>목록 로딩 중...</Loader>
               </Dimmer>
 
-              <Header as="h3" textAlign="center">주문 내역</Header>
+              <Header as="h3" textAlign="center">처리 대기중인 주문 목록</Header>
               <Table celled textAlign="center" size="small">
                 <Table.Header>
                   <Table.Row>

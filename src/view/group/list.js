@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Table, Grid, Header, Icon, Button, Segment, Dimmer, Loader } from 'semantic-ui-react';
+import { Table, Grid, Header, Icon, Button, Segment, Dimmer, Loader, Label } from 'semantic-ui-react';
 
 import authAction from '../../action/index';
 const { selectGroup } = authAction.auth;
@@ -64,12 +64,28 @@ class GroupList extends React.Component {
     return dateString;
   };
 
+  displayGroupPermission(role) {
+    switch(role) {
+      case 0:
+        return (<Label><Icon name='user' /> 일반 멤버</Label>);
+
+      case 1:
+        return (<Label><Icon name='key' /> 중간 관리자</Label>);
+
+      case 2:
+        return (<Label><Icon name='wizard' /> 최고 관리자</Label>);
+
+      default:
+        return (<Label><Icon name='exclamation triangle' /> 알 수 없음</Label>);
+    }
+  }
+
   render() {
     let rowItems = this.state.list.map((rowItem) =>
       <Table.Row key={rowItem.id} active={rowItem.id === this.props.group_id}>
         <Table.Cell>{rowItem.id}</Table.Cell>
         <Table.Cell>{rowItem.name}</Table.Cell>
-        <Table.Cell>{rowItem.role}</Table.Cell>
+        <Table.Cell>{this.displayGroupPermission(rowItem.role)}</Table.Cell>
         <Table.Cell>{this.getDateString(rowItem.created_at)}</Table.Cell>
         <Table.Cell onClick={(e) => this.handleGroupSelectClick({"group_id": rowItem.id, "role": rowItem.role})}><Icon name='hand pointer' size='large' /></Table.Cell>
       </Table.Row>

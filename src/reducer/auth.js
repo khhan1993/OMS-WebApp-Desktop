@@ -11,28 +11,22 @@ const initialState = {
 const auth = (state = initialState, action) => {
   switch (action.type) {
     case SIGN_IN:
-      return {
+      return Object.assign({}, state, {
         "jwt": action.jwt,
-        "group_id": null,
-        "role": null,
-        "api_url": state.api_url
-      };
+      });
 
     case SIGN_OUT:
-      return {
+      return Object.assign({}, state, {
         "jwt": null,
         "group_id": null,
-        "role": null,
-        "api_url": state.api_url
-      };
+        "role": null
+      });
 
     case SELECT_GROUP:
-      return {
-        "jwt": state.jwt,
+      return Object.assign({}, state, {
         "group_id": action.group_id,
         "role": action.role,
-        "api_url": state.api_url
-      };
+      });
 
     default:
       return state;

@@ -9,6 +9,7 @@ import GroupCreateView from '../view/group/create';
 import OrderRequestView from '../view/order/request';
 import OrderListView from '../view/order/list';
 import OrderVerifyView from '../view/order/verify';
+import QueueView from '../view/queue';
 import ManageMenuView from '../view/manage/menu';
 import ManageSetmenuView from '../view/manage/setmenu';
 
@@ -25,6 +26,7 @@ export default (
         <Route path="list" component={OrderListView} />
         <Route path="verify" component={OrderVerifyView} />
       </Route>
+      <Route path="queue" component={QueueView} />
       <Route path="manage">
         <Route path="menu" component={ManageMenuView} />
         <Route path="setmenu" component={ManageSetmenuView} />
