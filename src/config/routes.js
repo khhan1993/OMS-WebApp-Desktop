@@ -7,6 +7,8 @@ import MainView from '../view/main';
 import GroupListView from '../view/group/list';
 import GroupCreateView from '../view/group/create';
 import OrderRequestView from '../view/order/request';
+import OrderListView from '../view/order/list';
+import OrderVerifyView from '../view/order/verify';
 import ManageMenuView from '../view/manage/menu';
 import ManageSetmenuView from '../view/manage/setmenu';
 
@@ -20,6 +22,8 @@ export default (
       </Route>
       <Route path="order">
         <Route path="request" component={OrderRequestView} />
+        <Route path="list" component={OrderListView} />
+        <Route path="verify" component={OrderVerifyView} />
       </Route>
       <Route path="manage">
         <Route path="menu" component={ManageMenuView} />

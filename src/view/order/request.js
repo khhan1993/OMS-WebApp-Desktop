@@ -92,33 +92,23 @@ class OrderRequest extends React.Component {
     let url = this.props.api_url + "/api/order?jwt=" + this.props.jwt;
 
     let menu_list = [];
-    let orig_menu_list = [];
     for(let menu of this.state.menu_list) {
       if(!isNaN(menu.amount) && menu.amount !== 0) {
         menu_list.push({
           "id": menu.id,
           "amount": menu.amount
         });
-
-        delete menu.amount;
       }
-
-      orig_menu_list.push(menu);
     }
 
     let setmenu_list = [];
-    let orig_setmenu_list = [];
     for(let setmenu of this.state.setmenu_list) {
       if(!isNaN(setmenu.amount) && setmenu.amount !== 0) {
         setmenu_list.push({
           "id": setmenu.id,
           "amount": setmenu.amount
         });
-
-        delete setmenu.amount;
       }
-
-      orig_setmenu_list.push(setmenu);
     }
 
     if(menu_list.length === 0 && setmenu_list.length === 0) {
@@ -141,12 +131,24 @@ class OrderRequest extends React.Component {
 
         alert(alert_msg);
 
+        for(let menu of this.state.menu_list) {
+          if(!isNaN(menu.amount)) {
+            delete menu.amount;
+          }
+        }
+
+        for(let setmenu of this.state.setmenu_list) {
+          if(!isNaN(setmenu.amount)) {
+            delete setmenu.amount;
+          }
+        }
+
         this.setState({
           "is_in_order_processing": false,
           "table_name": "",
           "total_price": 0,
-          "menu_list": orig_menu_list,
-          "setmenu_list": orig_setmenu_list
+          "menu_list": this.state.menu_list,
+          "setmenu_list": this.state.setmenu_list
         });
       }).catch((error) => {
         alert(error.response.data.message);
