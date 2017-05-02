@@ -53,9 +53,44 @@ class Default extends React.Component {
     });
   };
 
+  handleSignupSubmit = (e) => {
+    e.preventDefault();
+
+    this.setState({
+      "is_in_process": true
+    });
+
+    let url = this.props.api_url + "/api/user?type=signup";
+
+    axios.post(url, {
+      "name": this.state.name,
+      "email": this.state.email,
+      "password": this.state.password
+    }).then((response) => {
+      this.setState({
+        "name": "",
+        "email": "",
+        "password": "",
+        "is_in_process": false
+      });
+      alert("가입이 완료되었습니다.");
+    }).catch((error) => {
+      alert(error.response.data.message);
+      this.setState({
+        "is_in_process": false
+      });
+    });
+  };
+
   handleSignoutClick = (e) => {
     browserHistory.push("/main");
     this.props.signOut();
+  };
+
+  handleNameChange = (e) => {
+    this.setState({
+      "name": e.target.value
+    });
   };
 
   handleEmailChange = (e) => {
@@ -113,7 +148,7 @@ class Default extends React.Component {
               <Dropdown.Menu>
                 <Link to="/manage/menu"><Dropdown.Item>메뉴 관리</Dropdown.Item></Link>
                 <Link to="/manage/setmenu"><Dropdown.Item>세트메뉴 관리</Dropdown.Item></Link>
-                <Dropdown.Item>멤버 관리</Dropdown.Item>
+                <Link to="/manage/member"><Dropdown.Item>멤버 관리</Dropdown.Item></Link>
               </Dropdown.Menu>
             </Dropdown>
             }
@@ -143,22 +178,22 @@ class Default extends React.Component {
               <Modal trigger={<Menu.Item name='회원가입' />} size='small'>
                 <Header icon='add user' content='회원가입' />
                 <Modal.Content>
-                  <Form>
+                  <Form onSubmit={this.handleSignupSubmit}>
                     <Form.Field>
                       <label>이름</label>
-                      <Input type="text" placeholder='이름 입력' />
+                      <Input type="text" value={this.state.name} onChange={this.handleNameChange} placeholder='이름 입력' />
                     </Form.Field>
 
                     <Form.Field>
                       <label>이메일</label>
-                      <Input type="email" placeholder='이메일 입력' />
+                      <Input type="email" value={this.state.email} onChange={this.handleEmailChange} placeholder='이메일 입력' />
                     </Form.Field>
 
                     <Form.Field>
                       <label>비밀번호</label>
-                      <Input type="password" placeholder='비밀번호 입력' />
+                      <Input type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder='비밀번호 입력' />
                     </Form.Field>
-                    <Button type='submit'>제출</Button>
+                    <Button type='submit' loading={this.state.is_in_process}>제출</Button>
                   </Form>
                 </Modal.Content>
               </Modal>
