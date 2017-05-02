@@ -27,6 +27,10 @@ class OrderRequest extends React.Component {
   getMenuList = () => {
     let url = this.props.api_url + "/api/menu?jwt=" + this.props.jwt + "&group_id=" + (this.props.group_id).toString();
 
+    this.setState({
+      "is_menu_list_loading": true
+    });
+
     axios.get(url)
       .then((response) => {
         this.setState({
@@ -36,11 +40,18 @@ class OrderRequest extends React.Component {
       })
       .catch((error) => {
         alert(error.response.data.message);
+        this.setState({
+          "is_menu_list_loading": false
+        });
       });
   };
 
   getSetmenuList = () => {
     let url = this.props.api_url + "/api/setmenu?jwt=" + this.props.jwt + "&group_id=" + (this.props.group_id).toString();
+
+    this.setState({
+      "is_setmenu_list_loading": true
+    });
 
     axios.get(url)
       .then((response) => {
@@ -51,6 +62,9 @@ class OrderRequest extends React.Component {
       })
       .catch((error) => {
         alert(error.response.data.message);
+        this.setState({
+          "is_setmenu_list_loading": false
+        });
       });
   };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Grid, Header, Button, Table, Segment, Loader, Dimmer } from 'semantic-ui-react';
+import { Grid, Header, Button, Table, Segment, Loader, Dimmer, Label, Icon } from 'semantic-ui-react';
 import axios from 'axios';
 
 class Queue extends React.Component {
@@ -9,16 +9,46 @@ class Queue extends React.Component {
 
     this.state = {
       "queue": [],
-      "is_loading": true
+      "is_loading": true,
+      "remaining_refresh_time": 15,
+      "auto_refresh_interval_ref": null
     };
   }
 
   componentDidMount() {
     this.getQueue();
+    this.setState({
+      "auto_refresh_interval_ref": setInterval(this.autoRefresh, 1000)
+    });
   }
+
+  componentWillUnmount() {
+    clearInterval(this.state.auto_refresh_interval_ref);
+  }
+
+  autoRefresh = () => {
+    if(this.state.remaining_refresh_time <= 0) {
+      if(this.state.is_loading === false) {
+        this.setState({
+          "remaining_refresh_time": 15
+        });
+
+        this.getQueue();
+      }
+    }
+    else {
+      this.setState({
+        "remaining_refresh_time": this.state.remaining_refresh_time - 1
+      });
+    }
+  };
 
   getQueue() {
     let url = this.props.api_url + "/api/queue?jwt=" + this.props.jwt + "&group_id=" + (this.props.group_id).toString();
+
+    this.setState({
+      "is_loading": true
+    });
 
     axios.get(url)
       .then((response) => {
@@ -29,6 +59,9 @@ class Queue extends React.Component {
       })
       .catch((error) => {
         alert(error.response.data.message);
+        this.setState({
+          "is_loading": false
+        });
       });
   };
 
@@ -86,7 +119,7 @@ class Queue extends React.Component {
         "set_reference_id": item.set_reference_id
       }).then((response) => {
         this.setState({
-          "is_loading": true
+          "remaining_refresh_time": 15
         });
         this.getQueue();
       }).catch((error) => {
@@ -113,7 +146,11 @@ class Queue extends React.Component {
                 <Loader active={this.state.is_loading} />
               </Dimmer>
 
-              <Header as="h3" textAlign="center">메뉴별 대기열</Header>
+              <Header as="h3" textAlign="center">메뉴별 대기열
+                <Label>
+                  <Icon name='time' /> {this.state.remaining_refresh_time}
+                </Label>
+              </Header>
               <Table celled size="small">
                 <Table.Header>
                   <Table.Row>

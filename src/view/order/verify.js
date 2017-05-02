@@ -11,16 +11,47 @@ class OrderVerify extends React.Component {
       "list": [],
       "pagination": [],
       "cur_page": 1,
-      "is_list_loading": true
+      "is_list_loading": true,
+      "remaining_refresh_time": 15,
+      "auto_refresh_interval_ref": null
     }
   }
 
   componentDidMount() {
     this.getOrderList(1);
+    this.setState({
+      "auto_refresh_interval_ref": setInterval(this.autoRefresh, 1000)
+    });
   }
+
+  componentWillUnmount() {
+    clearInterval(this.state.auto_refresh_interval_ref);
+  }
+
+  autoRefresh = () => {
+    if(this.state.remaining_refresh_time <= 0) {
+      if(this.state.is_list_loading === false) {
+        this.setState({
+          "remaining_refresh_time": 15
+        });
+
+        this.getOrderList(this.state.cur_page);
+      }
+    }
+    else {
+      this.setState({
+        "remaining_refresh_time": this.state.remaining_refresh_time - 1
+      });
+    }
+  };
 
   getOrderList(page) {
     let url = this.props.api_url + "/api/order?jwt=" + this.props.jwt + "&show_only_pending=1&group_id=" + (this.props.group_id).toString() + "&page=" + page.toString();
+
+    this.setState({
+      "is_list_loading": true
+    });
+
     axios.get(url)
       .then((response) => {
         this.setState({
@@ -31,13 +62,16 @@ class OrderVerify extends React.Component {
       })
       .catch((error) => {
         alert(error.response.data.message);
+        this.setState({
+          "is_list_loading": false
+        });
       });
   }
 
   handleGetOrderListClick = (page_num) => {
     this.setState({
       "cur_page": page_num,
-      "is_list_loading": true
+      "remaining_refresh_time": 15
     });
 
     this.getOrderList(page_num);
@@ -60,7 +94,7 @@ class OrderVerify extends React.Component {
         "is_approved": is_approved
       }).then((response) => {
         this.setState({
-          "is_list_loading": true
+          "remaining_refresh_time": 15
         });
 
         this.getOrderList(this.state.cur_page);
@@ -146,7 +180,12 @@ class OrderVerify extends React.Component {
                 <Loader active={this.state.is_list_loading}>목록 로딩 중...</Loader>
               </Dimmer>
 
-              <Header as="h3" textAlign="center">처리 대기중인 주문 목록</Header>
+              <Header as="h3" textAlign="center">
+                처리 대기중인 주문 목록
+                <Label>
+                  <Icon name='time' /> {this.state.remaining_refresh_time}
+                </Label>
+              </Header>
               <Table celled textAlign="center" size="small">
                 <Table.Header>
                   <Table.Row>

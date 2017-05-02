@@ -43,6 +43,10 @@ class GroupCreate extends React.Component {
       });
     }).catch((error) => {
       alert(error.response.data.message);
+
+      this.setState({
+        "is_on_creation": false
+      });
     });
   };
 

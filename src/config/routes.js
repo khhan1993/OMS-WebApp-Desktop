@@ -12,6 +12,7 @@ import OrderVerifyView from '../view/order/verify';
 import QueueView from '../view/queue';
 import ManageMenuView from '../view/manage/menu';
 import ManageSetmenuView from '../view/manage/setmenu';
+import ManageMemberView from '../view/manage/member';
 
 export default (
   <Router history={browserHistory}>
@@ -30,6 +31,7 @@ export default (
       <Route path="manage">
         <Route path="menu" component={ManageMenuView} />
         <Route path="setmenu" component={ManageSetmenuView} />
+        <Route path="member" component={ManageMemberView} />
       </Route>
       <IndexRedirect to="main" />
     </Route>

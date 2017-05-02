@@ -26,6 +26,10 @@ class GroupList extends React.Component {
   getGroupList(page) {
     let url = this.props.api_url + "/api/group?jwt=" + this.props.jwt + "&page=" + page.toString();
 
+    this.setState({
+      "is_list_loading": true
+    });
+
     axios.get(url)
       .then((response) => {
         this.setState({
@@ -36,13 +40,15 @@ class GroupList extends React.Component {
       })
       .catch((error) => {
         alert(error.response.data.message);
+        this.setState({
+          "is_list_loading": false
+        });
       });
   };
 
   handleGetGroupListClick = (page_num) => {
     this.setState({
-      "cur_page": page_num,
-      "is_list_loading": true
+      "cur_page": page_num
     });
 
     this.getGroupList(page_num);
