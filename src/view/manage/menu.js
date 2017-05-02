@@ -126,9 +126,9 @@ class ManageMenu extends React.Component {
     let menuItems = this.state.menu_list.map((menuItem) =>
       <Table.Row key={menuItem.id}>
         <Table.Cell>{menuItem.name}</Table.Cell>
-        <Table.Cell><Input fluid transparent type="number" defaultValue={menuItem.price} onChange={(e) => this.handleChangePrice(menuItem, e)} onBlur={(e) => this.handleOnBlur(menuItem)} placeholder='가격 입력' /></Table.Cell>
-        <Table.Cell active={parseInt(menuItem.is_enabled, 10) === 1} onClick={(e) => this.handleStateChange(menuItem, 1)}><Icon name='checkmark' size='large' /></Table.Cell>
-        <Table.Cell active={parseInt(menuItem.is_enabled, 10) === 0} onClick={(e) => this.handleStateChange(menuItem, 0)}><Icon name='remove' size='large' /></Table.Cell>
+        <Table.Cell selectable><Input fluid transparent type="number" defaultValue={menuItem.price} onChange={(e) => this.handleChangePrice(menuItem, e)} onBlur={(e) => this.handleOnBlur(menuItem)} placeholder='가격 입력' /></Table.Cell>
+        <Table.Cell active={parseInt(menuItem.is_enabled, 10) === 1} selectable onClick={(e) => this.handleStateChange(menuItem, 1)}><Icon name='checkmark' size='large' /></Table.Cell>
+        <Table.Cell active={parseInt(menuItem.is_enabled, 10) === 0} selectable onClick={(e) => this.handleStateChange(menuItem, 0)}><Icon name='remove' size='large' /></Table.Cell>
       </Table.Row>
     );
 

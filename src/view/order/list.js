@@ -106,10 +106,10 @@ class OrderList extends React.Component {
 
   render() {
     let rowItems = this.state.list.map((rowItem) =>
-      <Table.Row key={rowItem.id}>
+      <Table.Row key={rowItem.id} negative={parseInt(rowItem.status, 10) === -1} positive={parseInt(rowItem.status, 10) === 1}>
         <Table.Cell>{rowItem.id}</Table.Cell>
         <Table.Cell>{rowItem.name}</Table.Cell>
-        <Table.Cell onClick={(e) => this.handleGetOrderInfo(rowItem)}>
+        <Table.Cell selectable onClick={(e) => this.handleGetOrderInfo(rowItem)}>
           <Label active={rowItem.is_loading === true}>눌러서 확인</Label>
         </Table.Cell>
         <Table.Cell>{rowItem.total_price}</Table.Cell>

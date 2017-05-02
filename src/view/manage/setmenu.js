@@ -164,9 +164,9 @@ class ManageSetmenu extends React.Component {
     let setmenuItems = this.state.setmenu_list.map((setmenuItem) =>
       <Table.Row key={setmenuItem.id}>
         <Table.Cell>{setmenuItem.name}</Table.Cell>
-        <Table.Cell><Input fluid transparent type="number" defaultValue={setmenuItem.price} onChange={(e) => this.handleChangePrice(setmenuItem, e)} onBlur={(e) => this.handleOnBlur(setmenuItem)} placeholder='가격 입력' /></Table.Cell>
-        <Table.Cell active={parseInt(setmenuItem.is_enabled, 10) === 1} onClick={(e) => this.handleStateChange(setmenuItem, 1)}><Icon name='checkmark' size='large' /></Table.Cell>
-        <Table.Cell active={parseInt(setmenuItem.is_enabled, 10) === 0} onClick={(e) => this.handleStateChange(setmenuItem, 0)}><Icon name='remove' size='large' /></Table.Cell>
+        <Table.Cell selectable><Input fluid transparent type="number" defaultValue={setmenuItem.price} onChange={(e) => this.handleChangePrice(setmenuItem, e)} onBlur={(e) => this.handleOnBlur(setmenuItem)} placeholder='가격 입력' /></Table.Cell>
+        <Table.Cell active={parseInt(setmenuItem.is_enabled, 10) === 1} selectable onClick={(e) => this.handleStateChange(setmenuItem, 1)}><Icon name='checkmark' size='large' /></Table.Cell>
+        <Table.Cell active={parseInt(setmenuItem.is_enabled, 10) === 0} selectable onClick={(e) => this.handleStateChange(setmenuItem, 0)}><Icon name='remove' size='large' /></Table.Cell>
       </Table.Row>
     );
 
@@ -174,7 +174,7 @@ class ManageSetmenu extends React.Component {
       <Table.Row key={menuItem.id}>
         <Table.Cell>{menuItem.name}</Table.Cell>
         <Table.Cell>{menuItem.price}</Table.Cell>
-        <Table.Cell onClick={(e) => this.handleAddMenuToSet(menuItem)} ><Icon name='add' size='large' /></Table.Cell>
+        <Table.Cell selectable onClick={(e) => this.handleAddMenuToSet(menuItem)} ><Icon name='add' size='large' /></Table.Cell>
       </Table.Row>
     );
 

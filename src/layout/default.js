@@ -101,7 +101,7 @@ class Default extends React.Component {
             }
 
             {this.props.jwt !== null && this.props.group_id !== null &&
-            <Menu.Item name="대기열" />
+            <Link to="/queue"><Menu.Item name="대기열" /></Link>
             }
 
             {this.props.jwt !== null && this.props.group_id !== null &&

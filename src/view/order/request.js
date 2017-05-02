@@ -161,39 +161,25 @@ class OrderRequest extends React.Component {
   };
 
   render() {
-    let menuItems = this.state.menu_list.map((menuItem) => {
-      if(parseInt(menuItem.is_enabled, 10) === 1) {
-        return (
-          <Table.Row key={menuItem.id}>
-            <Table.Cell>{menuItem.name}</Table.Cell>
-            <Table.Cell>{menuItem.price}</Table.Cell>
-            <Table.Cell>{menuItem.amount}</Table.Cell>
-            <Table.Cell onClick={(e) => this.handleMenuItemAdjust(menuItem, 1)}><Icon name='plus' size='large' /></Table.Cell>
-            <Table.Cell onClick={(e) => this.handleMenuItemAdjust(menuItem, -1)}><Icon name='minus' size='large' /></Table.Cell>
-          </Table.Row>
-        );
-      }
-      else {
-        return null;
-      }
-    });
+    let menuItems = this.state.menu_list.map((menuItem) =>
+      <Table.Row key={menuItem.id} disabled={parseInt(menuItem.is_enabled, 10) !== 1}>
+        <Table.Cell>{menuItem.name}</Table.Cell>
+        <Table.Cell>{menuItem.price}</Table.Cell>
+        <Table.Cell>{menuItem.amount}</Table.Cell>
+        <Table.Cell selectable onClick={(e) => this.handleMenuItemAdjust(menuItem, 1)}><Icon name='plus' size='large' /></Table.Cell>
+        <Table.Cell selectable onClick={(e) => this.handleMenuItemAdjust(menuItem, -1)}><Icon name='minus' size='large' /></Table.Cell>
+      </Table.Row>
+    );
 
-    let setmenuItems = this.state.setmenu_list.map((setmenuItem) => {
-      if(parseInt(setmenuItem.is_enabled, 10) === 1) {
-        return (
-          <Table.Row key={setmenuItem.id}>
-            <Table.Cell>{setmenuItem.name}</Table.Cell>
-            <Table.Cell>{setmenuItem.price}</Table.Cell>
-            <Table.Cell>{setmenuItem.amount}</Table.Cell>
-            <Table.Cell onClick={(e) => this.handleSetmenuItemAdjust(setmenuItem, 1)}><Icon name='plus' size='large' /></Table.Cell>
-            <Table.Cell onClick={(e) => this.handleSetmenuItemAdjust(setmenuItem, -1)}><Icon name='minus' size='large' /></Table.Cell>
-          </Table.Row>
-        );
-      }
-      else {
-        return null;
-      }
-    });
+    let setmenuItems = this.state.setmenu_list.map((setmenuItem) =>
+      <Table.Row key={setmenuItem.id} disabled={parseInt(setmenuItem.is_enabled, 10) !== 1}>
+        <Table.Cell>{setmenuItem.name}</Table.Cell>
+        <Table.Cell>{setmenuItem.price}</Table.Cell>
+        <Table.Cell>{setmenuItem.amount}</Table.Cell>
+        <Table.Cell selectable onClick={(e) => this.handleSetmenuItemAdjust(setmenuItem, 1)}><Icon name='plus' size='large' /></Table.Cell>
+        <Table.Cell selectable onClick={(e) => this.handleSetmenuItemAdjust(setmenuItem, -1)}><Icon name='minus' size='large' /></Table.Cell>
+      </Table.Row>
+    );
 
     return (
       <Grid columns="equal">
