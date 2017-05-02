@@ -92,9 +92,9 @@ class Default extends React.Component {
             <Dropdown item text='주문' className={this.activeRoute("/order")}>
               <Dropdown.Menu>
                 <Link to="/order/request"><Dropdown.Item>주문 입력</Dropdown.Item></Link>
-                <Dropdown.Item>주문 내역</Dropdown.Item>
+                <Link to="/order/list"><Dropdown.Item>주문 내역</Dropdown.Item></Link>
                 {this.props.role > 0 &&
-                <Dropdown.Item>주문 처리</Dropdown.Item>
+                <Link to="/order/verify"><Dropdown.Item>주문 처리</Dropdown.Item></Link>
                 }
               </Dropdown.Menu>
             </Dropdown>
