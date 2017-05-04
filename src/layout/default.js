@@ -44,7 +44,7 @@ class Default extends React.Component {
         "password": "",
         "is_in_process": false
       });
-      browserHistory.push("/group");
+      browserHistory.push("/group/list");
     }).catch((error) => {
       alert(error.response.data.message);
       this.setState({

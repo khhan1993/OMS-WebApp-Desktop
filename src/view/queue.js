@@ -95,13 +95,12 @@ class Queue extends React.Component {
       else {
         return (
           <Button
-            key={(item.order_id).toString() + "-" + (item.menu_id).toString() + "-" + (item.set_reference_id).toString()}
+            key={(item.order_id).toString() + "-" + (item.menu_id).toString()}
             size="small"
             content={"Table " + (item.table_id).toString()}
             icon='send outline'
             label={{ as: 'a', basic: true, content: item.amount }}
             labelPosition='right'
-            active={item.set_reference_id !== 0}
             onClick={(e) => this.handleOnClick(item)}
           />
         );
@@ -115,8 +114,7 @@ class Queue extends React.Component {
 
       axios.put(url, {
         "order_id": item.order_id,
-        "menu_id": item.menu_id,
-        "set_reference_id": item.set_reference_id
+        "menu_id": item.menu_id
       }).then((response) => {
         this.setState({
           "remaining_refresh_time": 15
@@ -156,7 +154,7 @@ class Queue extends React.Component {
                   <Table.Row>
                     <Table.HeaderCell>이름</Table.HeaderCell>
                     <Table.HeaderCell>대기 수량</Table.HeaderCell>
-                    <Table.HeaderCell>대기열 (세트메뉴의 경우 진하게 표시)</Table.HeaderCell>
+                    <Table.HeaderCell>대기열</Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
 
