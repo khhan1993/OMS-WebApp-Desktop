@@ -29,7 +29,7 @@ class ManageMember extends React.Component {
     axios.get(url)
       .then((response) => {
         this.setState({
-          "member_list": response.data,
+          "member_list": response.data.list,
           "is_list_loading": false,
         });
       })
@@ -109,8 +109,8 @@ class ManageMember extends React.Component {
 
   render() {
     let member_list = this.state.member_list.map((member) =>
-      <Table.Row key={member.user_id}>
-        <Table.Cell>{member.user_id}</Table.Cell>
+      <Table.Row key={member.id}>
+        <Table.Cell>{member.id}</Table.Cell>
         <Table.Cell>{member.name}</Table.Cell>
         <Table.Cell selectable active={parseInt(member.role, 10) === 0} onClick={(e) => this.changeMemberRole(member, 0)}>
           <Popup trigger={<Icon name='user' />} header="일반 유저" />
