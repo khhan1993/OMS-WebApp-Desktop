@@ -53,7 +53,7 @@ class Queue extends React.Component {
     axios.get(url)
       .then((response) => {
         this.setState({
-          "queue": response.data,
+          "queue": response.data.list,
           "is_loading": false
         });
       })
