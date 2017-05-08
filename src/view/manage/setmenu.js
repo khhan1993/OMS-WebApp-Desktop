@@ -207,7 +207,7 @@ class ManageSetmenu extends React.Component {
     return (
       <Grid>
         <Grid.Row centered columns={2} only="computer tablet">
-          <Grid.Column>
+          <Grid.Column width={7}>
             <Segment>
               <Dimmer active={this.state.is_setmenu_list_loading} inverted>
                 <Loader active={this.state.is_setmenu_list_loading} />
@@ -229,7 +229,7 @@ class ManageSetmenu extends React.Component {
               </Table>
             </Segment>
           </Grid.Column>
-          <Grid.Column>
+          <Grid.Column width={7}>
             <Segment>
               <Dimmer active={this.state.is_menu_list_loading || this.state.is_setmenu_on_creation} inverted>
                 <Loader active={this.state.is_menu_list_loading || this.state.is_setmenu_on_creation} />
