@@ -5,7 +5,7 @@ const initialState = {
   "jwt": localStorage.getItem("jwt"),
   "group_id": (localStorage.getItem("group_id") !== null) ? parseInt(localStorage.getItem("group_id"), 10) : null,
   "role": (localStorage.getItem("role") !== null) ? parseInt(localStorage.getItem("role"), 10) : null,
-  "api_url": "https://api.oms.lionlab.io"
+  "api_url": "https://oms.lionlab.io"
 };
 
 const auth = (state = initialState, action) => {

@@ -127,7 +127,7 @@ class ManageMember extends React.Component {
     return (
       <Grid divided='vertically'>
         <Grid.Row columns={2}>
-          <Grid.Column>
+          <Grid.Column width={7}>
             <Segment>
               <Dimmer active={this.state.is_list_loading} inverted>
                 <Loader active={this.state.is_list_loading} />
@@ -149,7 +149,7 @@ class ManageMember extends React.Component {
               </Table>
             </Segment>
           </Grid.Column>
-          <Grid.Column>
+          <Grid.Column width={7}>
             <Segment>
               <Dimmer active={this.state.is_on_creation} inverted>
                 <Loader active={this.state.is_on_creation} />
