@@ -149,9 +149,9 @@ class ManageMenu extends React.Component {
     );
 
     return (
-      <Grid divided='vertically'>
-        <Grid.Row columns={2}>
-          <Grid.Column>
+      <Grid>
+        <Grid.Row centered columns={2} only="computer tablet">
+          <Grid.Column width={7}>
             <Segment>
               <Dimmer active={this.state.is_list_loading} inverted>
                 <Loader active={this.state.is_list_loading} />
@@ -173,7 +173,55 @@ class ManageMenu extends React.Component {
               </Table>
             </Segment>
           </Grid.Column>
-          <Grid.Column>
+          <Grid.Column width={7}>
+            <Segment>
+              <Dimmer active={this.state.is_menu_on_creation} inverted>
+                <Loader active={this.state.is_menu_on_creation} />
+              </Dimmer>
+
+              <Header as="h2" textAlign="center">새 메뉴 등록</Header>
+              <Form onSubmit={this.handleNewMenuSubmit}>
+                <Form.Field>
+                  <label>이름</label>
+                  <Input type="text" value={this.state.new_name} onChange={this.handleNewMenuNameChange} placeholder='이름 입력' required />
+                </Form.Field>
+
+                <Form.Field>
+                  <label>가격</label>
+                  <Input type="number" value={this.state.new_price} onChange={this.handleNewMenuPriceChange} placeholder='가격 입력' required />
+                </Form.Field>
+
+                <Button fluid type='submit'>추가하기</Button>
+              </Form>
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row centered columns={1} only="mobile">
+          <Grid.Column width={15}>
+            <Segment>
+              <Dimmer active={this.state.is_list_loading} inverted>
+                <Loader active={this.state.is_list_loading} />
+              </Dimmer>
+
+              <Header as="h2" textAlign="center">메뉴 목록</Header>
+              <Table unstackable celled textAlign="center">
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>이름</Table.HeaderCell>
+                    <Table.HeaderCell>가격</Table.HeaderCell>
+                    <Table.HeaderCell colSpan="2">상태</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+
+                <Table.Body>
+                  {menuItems}
+                </Table.Body>
+              </Table>
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row centered columns={1} only="mobile">
+          <Grid.Column width={15}>
             <Segment>
               <Dimmer active={this.state.is_menu_on_creation} inverted>
                 <Loader active={this.state.is_menu_on_creation} />

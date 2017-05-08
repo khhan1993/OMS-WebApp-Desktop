@@ -97,6 +97,14 @@ class GroupList extends React.Component {
       </Table.Row>
     );
 
+    let rowItemsMobile = this.state.list.map((rowItem) =>
+      <Table.Row key={rowItem.id} active={rowItem.id === this.props.group_id}>
+        <Table.Cell>{rowItem.name}</Table.Cell>
+        <Table.Cell>{this.displayGroupPermission(rowItem.role)}</Table.Cell>
+        <Table.Cell onClick={(e) => this.handleGroupSelectClick({"group_id": rowItem.id, "role": rowItem.role})}><Icon name='hand pointer' size='large' /></Table.Cell>
+      </Table.Row>
+    );
+
     let pageItems = this.state.pagination.map((page) =>
       <Button key={page.num} active={page.current === true} onClick={(e) => this.handleGetGroupListClick(page.num)}>
         {page.text}
@@ -105,7 +113,7 @@ class GroupList extends React.Component {
 
     return (
       <Grid columns="equal">
-        <Grid.Row centered>
+        <Grid.Row centered only="computer tablet">
           <Grid.Column width={9}>
             <Segment>
               <Dimmer active={this.state.is_list_loading} inverted>
@@ -126,6 +134,34 @@ class GroupList extends React.Component {
 
                 <Table.Body>
                   {rowItems}
+                </Table.Body>
+              </Table>
+
+              <Button.Group fluid>
+                {pageItems}
+              </Button.Group>
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row centered only="mobile">
+          <Grid.Column width={15}>
+            <Segment>
+              <Dimmer active={this.state.is_list_loading} inverted>
+                <Loader active={this.state.is_list_loading}>목록 로딩 중...</Loader>
+              </Dimmer>
+
+              <Header as="h2" textAlign="center">그룹 목록</Header>
+              <Table celled unstackable textAlign="center">
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>이름</Table.HeaderCell>
+                    <Table.HeaderCell>권한</Table.HeaderCell>
+                    <Table.HeaderCell>선택</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+
+                <Table.Body>
+                  {rowItemsMobile}
                 </Table.Body>
               </Table>
 

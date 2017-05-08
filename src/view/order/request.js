@@ -185,6 +185,15 @@ class OrderRequest extends React.Component {
       </Table.Row>
     );
 
+    let menuItemsMobile = this.state.menu_list.map((menuItem) =>
+      <Table.Row key={menuItem.id} disabled={parseInt(menuItem.is_enabled, 10) !== 1}>
+        <Table.Cell>{menuItem.name}</Table.Cell>
+        <Table.Cell>{menuItem.amount}</Table.Cell>
+        <Table.Cell selectable onClick={(e) => this.handleMenuItemAdjust(menuItem, 1)}><Icon name='plus' size='large' /></Table.Cell>
+        <Table.Cell selectable onClick={(e) => this.handleMenuItemAdjust(menuItem, -1)}><Icon name='minus' size='large' /></Table.Cell>
+      </Table.Row>
+    );
+
     let setmenuItems = this.state.setmenu_list.map((setmenuItem) =>
       <Table.Row key={setmenuItem.id} disabled={parseInt(setmenuItem.is_enabled, 10) !== 1}>
         <Table.Cell>{setmenuItem.name}</Table.Cell>
@@ -195,9 +204,18 @@ class OrderRequest extends React.Component {
       </Table.Row>
     );
 
+    let setmenuItemsMobile = this.state.setmenu_list.map((setmenuItem) =>
+      <Table.Row key={setmenuItem.id} disabled={parseInt(setmenuItem.is_enabled, 10) !== 1}>
+        <Table.Cell>{setmenuItem.name}</Table.Cell>
+        <Table.Cell>{setmenuItem.amount}</Table.Cell>
+        <Table.Cell selectable onClick={(e) => this.handleSetmenuItemAdjust(setmenuItem, 1)}><Icon name='plus' size='large' /></Table.Cell>
+        <Table.Cell selectable onClick={(e) => this.handleSetmenuItemAdjust(setmenuItem, -1)}><Icon name='minus' size='large' /></Table.Cell>
+      </Table.Row>
+    );
+
     return (
       <Grid columns="equal">
-        <Grid.Row centered>
+        <Grid.Row centered only="computer tablet">
           <Grid.Column width={8}>
             <Segment>
               <Dimmer active={this.state.is_setmenu_list_loading || this.state.is_menu_list_loading || this.state.is_in_order_processing} inverted>
@@ -234,6 +252,57 @@ class OrderRequest extends React.Component {
 
                   <Table.Body>
                     {setmenuItems}
+                  </Table.Body>
+                </Table>
+
+                <Header as="h3" textAlign="center">테이블 이름</Header>
+                <Input type="text" fluid value={this.state.table_name} onChange={this.handleTableNameChange} placeholder='테이블 이름 입력' required />
+
+                <br/>
+
+                <Button.Group fluid size='large'>
+                  <Button>총 가격 : {this.state.total_price}</Button>
+                  <Button primary type="submit">주문 요청</Button>
+                </Button.Group>
+              </Form>
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row centered only="mobile">
+          <Grid.Column width={15}>
+            <Segment>
+              <Dimmer active={this.state.is_setmenu_list_loading || this.state.is_menu_list_loading || this.state.is_in_order_processing} inverted>
+                <Loader active={this.state.is_setmenu_list_loading || this.state.is_menu_list_loading || this.state.is_in_order_processing} />
+              </Dimmer>
+
+              <Form onSubmit={this.handleOnSubmit}>
+                <Header as="h3" textAlign="center">메뉴 목록</Header>
+                <Table celled unstackable textAlign="center" size="small">
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell>이름</Table.HeaderCell>
+                      <Table.HeaderCell>수량</Table.HeaderCell>
+                      <Table.HeaderCell colSpan="2">수량 조절</Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+
+                  <Table.Body>
+                    {menuItemsMobile}
+                  </Table.Body>
+                </Table>
+
+                <Header as="h3" textAlign="center">세트메뉴 목록</Header>
+                <Table celled unstackable textAlign="center" size="small">
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell>이름</Table.HeaderCell>
+                      <Table.HeaderCell>수량</Table.HeaderCell>
+                      <Table.HeaderCell colSpan="2">수량 조절</Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+
+                  <Table.Body>
+                    {setmenuItemsMobile}
                   </Table.Body>
                 </Table>
 

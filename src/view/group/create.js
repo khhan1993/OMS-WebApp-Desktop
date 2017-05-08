@@ -53,8 +53,27 @@ class GroupCreate extends React.Component {
   render() {
     return (
       <Grid columns="equal">
-        <Grid.Row centered>
+        <Grid.Row centered only="computer tablet">
           <Grid.Column width={6}>
+            <Segment>
+              <Dimmer active={this.state.is_on_creation} inverted>
+                <Loader active={this.state.is_on_creation}>생성 중...</Loader>
+              </Dimmer>
+
+              <Header as="h2" textAlign="center">새 그룹 생성</Header>
+              <Form onSubmit={this.handleSubmit}>
+                <Form.Field>
+                  <label>새 그룹 이름</label>
+                  <Input type="text" value={this.state.name} onChange={this.handleChange} placeholder='새 그룹 이름 입력' required />
+                </Form.Field>
+
+                <Button fluid type='submit'>생성하기</Button>
+              </Form>
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row centered only="mobile">
+          <Grid.Column width={15}>
             <Segment>
               <Dimmer active={this.state.is_on_creation} inverted>
                 <Loader active={this.state.is_on_creation}>생성 중...</Loader>

@@ -205,8 +205,8 @@ class ManageSetmenu extends React.Component {
     );
 
     return (
-      <Grid divided='vertically'>
-        <Grid.Row columns={2}>
+      <Grid>
+        <Grid.Row centered columns={2} only="computer tablet">
           <Grid.Column>
             <Segment>
               <Dimmer active={this.state.is_setmenu_list_loading} inverted>
@@ -262,6 +262,83 @@ class ManageSetmenu extends React.Component {
                 <Form.Field>
                   <label>메뉴 목록</label>
                   <Table celled textAlign="center" size="small">
+                    <Table.Header>
+                      <Table.Row>
+                        <Table.HeaderCell>이름</Table.HeaderCell>
+                        <Table.HeaderCell>가격</Table.HeaderCell>
+                        <Table.HeaderCell>추가하기</Table.HeaderCell>
+                      </Table.Row>
+                    </Table.Header>
+
+                    <Table.Body>
+                      {menuItems}
+                    </Table.Body>
+                  </Table>
+                </Form.Field>
+
+                <Button fluid type='submit' disabled={this.state.new_menu_list.length === 0}>추가하기</Button>
+              </Form>
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row centered only="mobile">
+          <Grid.Column width={15}>
+            <Segment>
+              <Dimmer active={this.state.is_setmenu_list_loading} inverted>
+                <Loader active={this.state.is_setmenu_list_loading} />
+              </Dimmer>
+
+              <Header as="h2" textAlign="center">세트메뉴 목록</Header>
+              <Table unstackable celled textAlign="center">
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>이름</Table.HeaderCell>
+                    <Table.HeaderCell>가격</Table.HeaderCell>
+                    <Table.HeaderCell colSpan="2">상태</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+
+                <Table.Body>
+                  {setmenuItems}
+                </Table.Body>
+              </Table>
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row centered only="mobile">
+          <Grid.Column width={15}>
+            <Segment>
+              <Dimmer active={this.state.is_menu_list_loading || this.state.is_setmenu_on_creation} inverted>
+                <Loader active={this.state.is_menu_list_loading || this.state.is_setmenu_on_creation} />
+              </Dimmer>
+
+              <Header as="h2" textAlign="center">새 세트메뉴 등록</Header>
+              <Form onSubmit={this.handleNewSetmenuSubmit}>
+                <Form.Field>
+                  <label>이름</label>
+                  <Input type="text" value={this.state.new_name} onChange={this.handleNewSetmenuNameChange} placeholder='이름 입력' required />
+                </Form.Field>
+
+                <Form.Field>
+                  <label>가격</label>
+                  <Input type="number" value={this.state.new_price} onChange={this.handleNewSetmenuPriceChange} placeholder='가격 입력' required />
+                </Form.Field>
+
+                <Form.Field>
+                  <label>
+                    선택된 메뉴 &nbsp;
+                    {this.state.new_menu_list.length > 0 &&
+                    <Label color='red' horizontal onClick={(e) => {this.setState({"new_menu_list": []});}}>초기화</Label>
+                    }
+                  </label>
+                  <Segment>
+                    {new_set_items}
+                  </Segment>
+                </Form.Field>
+
+                <Form.Field>
+                  <label>메뉴 목록</label>
+                  <Table unstackable celled textAlign="center" size="small">
                     <Table.Header>
                       <Table.Row>
                         <Table.HeaderCell>이름</Table.HeaderCell>

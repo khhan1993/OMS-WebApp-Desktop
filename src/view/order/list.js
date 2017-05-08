@@ -154,6 +154,19 @@ class OrderList extends React.Component {
       </Table.Row>
     );
 
+    let rowItemsMobile = this.state.list.map((rowItem) =>
+      <Table.Row key={rowItem.id} negative={parseInt(rowItem.status, 10) === -1} positive={parseInt(rowItem.status, 10) === 1}>
+        <Table.Cell>{rowItem.id}</Table.Cell>
+        <Table.Cell selectable onClick={(e) => this.handleGetOrderInfo(rowItem)}>
+          <Label active={rowItem.is_loading === true}>보기</Label>
+        </Table.Cell>
+        <Table.Cell>{rowItem.total_price}</Table.Cell>
+        <Table.Cell>{rowItem.table_id}</Table.Cell>
+        <Table.Cell>{this.getStatusIcon(rowItem.status)}</Table.Cell>
+      </Table.Row>
+    );
+
+
     let pageItems = this.state.pagination.map((page) =>
       <Button key={page.num} active={page.current === true} onClick={(e) => this.handleGetOrderListClick(page.num)}>
         {page.text}
@@ -162,7 +175,7 @@ class OrderList extends React.Component {
 
     return (
       <Grid columns="equal">
-        <Grid.Row centered>
+        <Grid.Row centered only="computer tablet">
           <Grid.Column width={10}>
             <Segment>
               <Dimmer active={this.state.is_list_loading} inverted>
@@ -190,6 +203,41 @@ class OrderList extends React.Component {
 
                 <Table.Body>
                   {rowItems}
+                </Table.Body>
+              </Table>
+
+              <Button.Group fluid>
+                {pageItems}
+              </Button.Group>
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row centered only="mobile">
+          <Grid.Column width={15}>
+            <Segment>
+              <Dimmer active={this.state.is_list_loading} inverted>
+                <Loader active={this.state.is_list_loading}>목록 로딩 중...</Loader>
+              </Dimmer>
+
+              <Header as="h3" textAlign="center">
+                주문 내역
+                <Label>
+                  <Icon name='time' /> {this.state.remaining_refresh_time}
+                </Label>
+              </Header>
+              <Table celled unstackable textAlign="center" size="small">
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>#</Table.HeaderCell>
+                    <Table.HeaderCell>내역</Table.HeaderCell>
+                    <Table.HeaderCell>가격</Table.HeaderCell>
+                    <Table.HeaderCell>테이블</Table.HeaderCell>
+                    <Table.HeaderCell>상태</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+
+                <Table.Body>
+                  {rowItemsMobile}
                 </Table.Body>
               </Table>
 

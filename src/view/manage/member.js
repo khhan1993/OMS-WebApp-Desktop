@@ -90,7 +90,7 @@ class ManageMember extends React.Component {
 
       axios.put(url, {
         "group_id": this.props.group_id,
-        "user_id": member.user_id,
+        "user_id": member.id,
         "role": role
       }).then((response) => {
         member.role = role;
