@@ -108,6 +108,39 @@ class Queue extends React.Component {
     });
   }
 
+  visualizeQueueMobile(queueItem) {
+    let temp_queue = queueItem.queue.slice(0);
+    while(temp_queue.length > 1) {
+      temp_queue.pop();
+    }
+
+    if(queueItem.queue.length > 1) {
+      temp_queue.push({
+        "no_more": true
+      });
+    }
+
+    return temp_queue.map((item) => {
+      if(item['no_more'] === true) {
+        return (
+          <Button key="0-0-0" size="small" icon="warning sign" content="더 있음" disabled />
+        );
+      }
+      else {
+        return (
+          <Button
+            key={(item.order_id).toString() + "-" + (item.menu_id).toString()}
+            size="small"
+            content={"T " + (item.table_id).toString()}
+            label={{ as: 'a', basic: true, content: item.amount }}
+            labelPosition='right'
+            onClick={(e) => this.handleOnClick(item)}
+          />
+        );
+      }
+    });
+  }
+
   handleOnClick = (item) => {
     if(confirm("대기열에서 해당 항목을 제거하겠습니까?")) {
       let url = this.props.api_url + "/api/queue?jwt=" + this.props.jwt;
@@ -131,13 +164,13 @@ class Queue extends React.Component {
       <Table.Row key={rowItem.id}>
         <Table.Cell>{rowItem.name}</Table.Cell>
         <Table.Cell>{this.getCount(rowItem)}</Table.Cell>
-        <Table.Cell>{this.visualizeQueue(rowItem)}</Table.Cell>
+        <Table.Cell>{this.visualizeQueueMobile(rowItem)}</Table.Cell>
       </Table.Row>
     );
 
     return (
       <Grid columns="equal">
-        <Grid.Row centered>
+        <Grid.Row centered only="computer tablet">
           <Grid.Column width={13}>
             <Segment>
               <Dimmer active={this.state.is_loading} inverted>
@@ -154,6 +187,34 @@ class Queue extends React.Component {
                   <Table.Row>
                     <Table.HeaderCell>이름</Table.HeaderCell>
                     <Table.HeaderCell>대기 수량</Table.HeaderCell>
+                    <Table.HeaderCell>대기열</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+
+                <Table.Body>
+                  {rowItems}
+                </Table.Body>
+              </Table>
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row centered only="mobile">
+          <Grid.Column width={15}>
+            <Segment>
+              <Dimmer active={this.state.is_loading} inverted>
+                <Loader active={this.state.is_loading} />
+              </Dimmer>
+
+              <Header as="h3" textAlign="center">메뉴별 대기열
+                <Label>
+                  <Icon name='time' /> {this.state.remaining_refresh_time}
+                </Label>
+              </Header>
+              <Table unstackable celled size="small">
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>이름</Table.HeaderCell>
+                    <Table.HeaderCell>수량</Table.HeaderCell>
                     <Table.HeaderCell>대기열</Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
