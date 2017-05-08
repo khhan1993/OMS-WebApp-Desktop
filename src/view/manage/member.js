@@ -125,8 +125,8 @@ class ManageMember extends React.Component {
     );
 
     return (
-      <Grid divided='vertically'>
-        <Grid.Row columns={2}>
+      <Grid>
+        <Grid.Row centered columns={2} only="computer tablet">
           <Grid.Column width={7}>
             <Segment>
               <Dimmer active={this.state.is_list_loading} inverted>
@@ -150,6 +150,49 @@ class ManageMember extends React.Component {
             </Segment>
           </Grid.Column>
           <Grid.Column width={7}>
+            <Segment>
+              <Dimmer active={this.state.is_on_creation} inverted>
+                <Loader active={this.state.is_on_creation} />
+              </Dimmer>
+
+              <Header as="h2" textAlign="center">새 멤버 등록</Header>
+              <Form onSubmit={this.handleOnSubmit}>
+                <Form.Field>
+                  <label>이메일 또는 회원번호</label>
+                  <Input type="text" value={this.state.new_member_info} onChange={this.handleChange} placeholder='이름 또는 회원번호 입력' required />
+                </Form.Field>
+
+                <Button fluid type='submit'>추가하기</Button>
+              </Form>
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row centered only="mobile">
+          <Grid.Column width={15}>
+            <Segment>
+              <Dimmer active={this.state.is_list_loading} inverted>
+                <Loader active={this.state.is_list_loading} />
+              </Dimmer>
+
+              <Header as="h2" textAlign="center">멤버 목록</Header>
+              <Table unstackable celled textAlign="center">
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>#</Table.HeaderCell>
+                    <Table.HeaderCell>이름</Table.HeaderCell>
+                    <Table.HeaderCell colSpan="3">권한</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+
+                <Table.Body>
+                  {member_list}
+                </Table.Body>
+              </Table>
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row centered only="mobile">
+          <Grid.Column width={15}>
             <Segment>
               <Dimmer active={this.state.is_on_creation} inverted>
                 <Loader active={this.state.is_on_creation} />
