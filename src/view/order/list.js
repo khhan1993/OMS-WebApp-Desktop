@@ -174,7 +174,7 @@ class OrderList extends React.Component {
     );
 
     return (
-      <Grid columns="equal">
+      <Grid container columns="equal">
         <Grid.Row centered only="computer tablet">
           <Grid.Column width={10}>
             <Segment>
