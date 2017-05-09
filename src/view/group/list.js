@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Table, Grid, Header, Icon, Button, Segment, Dimmer, Loader, Label } from 'semantic-ui-react';
+import { Table, Grid, Header, Icon, Button, Segment, Dimmer, Loader, Label, Modal, Form, Input } from 'semantic-ui-react';
 
 import authAction from '../../action/index';
 const { selectGroup } = authAction.auth;
@@ -15,7 +15,10 @@ class GroupList extends React.Component {
       "list": [],
       "pagination": [],
       "cur_page": 1,
-      "is_list_loading": true
+      "is_list_loading": true,
+      "is_group_signup_processing": false,
+      "new_signup_group_id": "",
+      "new_signup_code": ""
     }
   }
 
@@ -55,17 +58,18 @@ class GroupList extends React.Component {
   };
 
   handleGroupSelectClick = (data) => {
-    this.props.selectGroup(data.group_id, data.role);
+
+    this.props.selectGroup(data.group_id, data.role, data.signup_code);
   };
 
   getDateString(dateInfo) {
     let dateObj = new Date(dateInfo);
 
-    let dateString = dateObj.getUTCFullYear() + "년 ";
-    dateString += (dateObj.getUTCMonth() + 1).toString() + "월 ";
-    dateString += dateObj.getUTCDate() + "일 ";
-    dateString += (parseInt(dateObj.getUTCHours(), 10) - (dateObj.getTimezoneOffset() / 60)).toString() + "시 ";
-    dateString += dateObj.getUTCMinutes() + "분";
+    let dateString = dateObj.getFullYear() + "년 ";
+    dateString += (dateObj.getMonth() + 1).toString() + "월 ";
+    dateString += dateObj.getDate() + "일 ";
+    dateString += dateObj.getHours() + "시 ";
+    dateString += dateObj.getMinutes() + "분";
 
     return dateString;
   };
@@ -86,6 +90,46 @@ class GroupList extends React.Component {
     }
   }
 
+  handleChangeGroupId = (e) => {
+    this.setState({
+      "new_signup_group_id": e.target.value
+    });
+  };
+
+  handleChangeCode = (e) => {
+    this.setState({
+      "new_signup_code": e.target.value
+    });
+  };
+
+  handleOnSubmit = (e) => {
+    e.preventDefault();
+
+    let url = this.props.api_url + "/api/member?jwt=" + this.props.jwt;
+
+    this.setState({
+      "is_group_signup_processing": true
+    });
+
+    axios.post(url, {
+      "group_id": this.state.new_signup_group_id,
+      "signup_code": this.state.new_signup_code
+    }).then((response) => {
+      alert("그룹에 가입되었습니다.");
+      this.setState({
+        "is_group_signup_processing": false,
+        "new_signup_group_id": "",
+        "new_signup_code": ""
+      });
+      this.getGroupList(this.state.cur_page);
+    }).catch((error) => {
+      alert(error.response.data.message);
+      this.setState({
+        "is_group_signup_processing": false
+      });
+    });
+  };
+
   render() {
     let rowItems = this.state.list.map((rowItem) =>
       <Table.Row key={rowItem.id} active={rowItem.id === this.props.group_id}>
@@ -93,7 +137,7 @@ class GroupList extends React.Component {
         <Table.Cell>{rowItem.name}</Table.Cell>
         <Table.Cell>{this.displayGroupPermission(rowItem.role)}</Table.Cell>
         <Table.Cell>{this.getDateString(rowItem.created_at)}</Table.Cell>
-        <Table.Cell onClick={(e) => this.handleGroupSelectClick({"group_id": rowItem.id, "role": rowItem.role})}><Icon name='hand pointer' size='large' /></Table.Cell>
+        <Table.Cell onClick={(e) => this.handleGroupSelectClick({"group_id": rowItem.id, "role": rowItem.role, "signup_code": rowItem.signup_code})}><Icon name='hand pointer' size='large' /></Table.Cell>
       </Table.Row>
     );
 
@@ -101,7 +145,7 @@ class GroupList extends React.Component {
       <Table.Row key={rowItem.id} active={rowItem.id === this.props.group_id}>
         <Table.Cell>{rowItem.name}</Table.Cell>
         <Table.Cell>{this.displayGroupPermission(rowItem.role)}</Table.Cell>
-        <Table.Cell onClick={(e) => this.handleGroupSelectClick({"group_id": rowItem.id, "role": rowItem.role})}><Icon name='hand pointer' size='large' /></Table.Cell>
+        <Table.Cell onClick={(e) => this.handleGroupSelectClick({"group_id": rowItem.id, "role": rowItem.role, "signup_code": rowItem.signup_code})}><Icon name='hand pointer' size='large' /></Table.Cell>
       </Table.Row>
     );
 
@@ -114,7 +158,7 @@ class GroupList extends React.Component {
     return (
       <Grid container columns="equal">
         <Grid.Row centered only="computer tablet">
-          <Grid.Column width={9}>
+          <Grid.Column width={10}>
             <Segment>
               <Dimmer active={this.state.is_list_loading} inverted>
                 <Loader active={this.state.is_list_loading}>목록 로딩 중...</Loader>
@@ -140,6 +184,25 @@ class GroupList extends React.Component {
               <Button.Group fluid>
                 {pageItems}
               </Button.Group>
+
+              <Modal closeIcon trigger={<Button basic fluid>새 그룹에 가입하기</Button>} size='small'>
+                <Header icon='group' content='새 그룹에 가입' />
+                <Modal.Content>
+                  <Form onSubmit={this.handleOnSubmit}>
+                    <Form.Field>
+                      <label>그룹 고유번호</label>
+                      <Input type="number" placeholder='고유번호 입력' value={this.state.new_signup_group_id} onChange={this.handleChangeGroupId} required/>
+                    </Form.Field>
+
+                    <Form.Field>
+                      <label>가입 인증코드</label>
+                      <Input type="text" placeholder='인증코드 입력' value={this.state.new_signup_code} onChange={this.handleChangeCode} required />
+                    </Form.Field>
+
+                    <Button type='submit' loading={this.is_group_signup_processing}>가입</Button>
+                  </Form>
+                </Modal.Content>
+              </Modal>
             </Segment>
           </Grid.Column>
         </Grid.Row>
@@ -168,6 +231,25 @@ class GroupList extends React.Component {
               <Button.Group fluid>
                 {pageItems}
               </Button.Group>
+
+              <Modal closeIcon trigger={<Button basic fluid>새 그룹에 가입하기</Button>} size='fullscreen'>
+                <Header icon='group' content='새 그룹에 가입' />
+                <Modal.Content>
+                  <Form onSubmit={this.handleOnSubmit}>
+                    <Form.Field>
+                      <label>그룹 고유번호</label>
+                      <Input type="number" placeholder='고유번호 입력' value={this.state.new_signup_group_id} onChange={this.handleChangeGroupId} required/>
+                    </Form.Field>
+
+                    <Form.Field>
+                      <label>가입 인증코드</label>
+                      <Input type="text" placeholder='인증코드 입력' value={this.state.new_signup_code} onChange={this.handleChangeCode} required />
+                    </Form.Field>
+
+                    <Button type='submit' loading={this.is_group_signup_processing}>가입</Button>
+                  </Form>
+                </Modal.Content>
+              </Modal>
             </Segment>
           </Grid.Column>
         </Grid.Row>
@@ -181,14 +263,15 @@ const mapStateToProps = (state) => {
     "jwt": state.auth.jwt,
     "api_url": state.auth.api_url,
     "group_id": state.auth.group_id,
+    "signup_code": state.auth.signup_code,
     "role": state.auth.role
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    "selectGroup": (group_id, role) => {
-      dispatch(selectGroup(group_id, role));
+    "selectGroup": (group_id, role, signup_code) => {
+      dispatch(selectGroup(group_id, role, signup_code));
     }
   }
 };
