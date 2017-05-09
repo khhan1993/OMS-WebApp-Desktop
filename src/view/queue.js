@@ -164,6 +164,14 @@ class Queue extends React.Component {
       <Table.Row key={rowItem.id}>
         <Table.Cell>{rowItem.name}</Table.Cell>
         <Table.Cell>{this.getCount(rowItem)}</Table.Cell>
+        <Table.Cell>{this.visualizeQueue(rowItem)}</Table.Cell>
+      </Table.Row>
+    );
+
+    let rowItemsMobile = this.state.queue.map((rowItem) =>
+      <Table.Row key={rowItem.id}>
+        <Table.Cell>{rowItem.name}</Table.Cell>
+        <Table.Cell>{this.getCount(rowItem)}</Table.Cell>
         <Table.Cell>{this.visualizeQueueMobile(rowItem)}</Table.Cell>
       </Table.Row>
     );
@@ -220,7 +228,7 @@ class Queue extends React.Component {
                 </Table.Header>
 
                 <Table.Body>
-                  {rowItems}
+                  {rowItemsMobile}
                 </Table.Body>
               </Table>
             </Segment>
