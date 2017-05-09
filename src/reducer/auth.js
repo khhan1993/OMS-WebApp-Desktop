@@ -6,7 +6,7 @@ const initialState = {
   "group_id": (localStorage.getItem("group_id") !== null) ? parseInt(localStorage.getItem("group_id"), 10) : null,
   "role": (localStorage.getItem("role") !== null) ? parseInt(localStorage.getItem("role"), 10) : null,
   "signup_code": (localStorage.getItem("signup_code") !== null) ? localStorage.getItem("signup_code") : "",
-  "api_url": "http://127.0.0.1:8080"
+  "api_url": "https://oms.lionlab.io"
 };
 
 const auth = (state = initialState, action) => {
