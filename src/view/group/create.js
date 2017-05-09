@@ -52,7 +52,7 @@ class GroupCreate extends React.Component {
 
   render() {
     return (
-      <Grid columns="equal">
+      <Grid container columns="equal">
         <Grid.Row centered only="computer tablet">
           <Grid.Column width={6}>
             <Segment>

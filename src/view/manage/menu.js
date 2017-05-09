@@ -149,7 +149,7 @@ class ManageMenu extends React.Component {
     );
 
     return (
-      <Grid>
+      <Grid container>
         <Grid.Row centered columns={2} only="computer tablet">
           <Grid.Column width={7}>
             <Segment>
