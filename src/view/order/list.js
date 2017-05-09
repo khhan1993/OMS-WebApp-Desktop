@@ -81,11 +81,11 @@ class OrderList extends React.Component {
   getDateString(dateInfo) {
     let dateObj = new Date(dateInfo);
 
-    let dateString = dateObj.getUTCFullYear() + "년 ";
-    dateString += (dateObj.getUTCMonth() + 1).toString() + "월 ";
-    dateString += dateObj.getUTCDate() + "일 ";
-    dateString += (parseInt(dateObj.getUTCHours(), 10) - (dateObj.getTimezoneOffset() / 60)).toString() + "시 ";
-    dateString += dateObj.getUTCMinutes() + "분";
+    let dateString = dateObj.getFullYear() + "년 ";
+    dateString += (dateObj.getMonth() + 1).toString() + "월 ";
+    dateString += dateObj.getDate() + "일 ";
+    dateString += dateObj.getHours() + "시 ";
+    dateString += dateObj.getMinutes() + "분";
 
     return dateString;
   };

@@ -12,15 +12,21 @@ function signOut() {
   localStorage.removeItem("jwt");
   localStorage.removeItem("group_id");
   localStorage.removeItem("role");
+  localStorage.removeItem("signup_code");
 
   return {"type": SIGN_OUT}
 }
 
-function selectGroup(group_id, role) {
+function selectGroup(group_id, role, signup_code) {
+  if(signup_code === null) {
+    signup_code = "";
+  }
+
   localStorage.setItem("group_id", group_id);
   localStorage.setItem("role", role);
+  localStorage.setItem("signup_code", signup_code);
 
-  return {"type": SELECT_GROUP, "group_id": group_id, "role": role}
+  return {"type": SELECT_GROUP, "group_id": group_id, "role": role, "signup_code": signup_code}
 }
 
 export {

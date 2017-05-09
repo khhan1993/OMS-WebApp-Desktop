@@ -170,6 +170,9 @@ class OrderRequest extends React.Component {
         this.setState({
           "is_in_order_processing": false
         });
+
+        this.getMenuList();
+        this.getSetmenuList();
       });
     }
   };

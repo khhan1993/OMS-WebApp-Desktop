@@ -1,11 +1,12 @@
 import React from 'react';
-import { Menu, Dropdown, Header, Modal, Button, Input, Form, Grid, Icon} from 'semantic-ui-react';
+import { Menu, Dropdown, Header, Modal, Button, Grid, Icon} from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Link, browserHistory } from 'react-router';
 
 import authAction from '../action/index';
 const { signIn, signOut } = authAction.auth;
+
 
 class Default extends React.Component {
 
@@ -55,90 +56,42 @@ class Default extends React.Component {
     return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   }
 
-  handleSigninSubmit = (e) => {
-    e.preventDefault();
-
-    this.setState({
-      "is_in_process": true
-    });
-
-    let url = this.props.api_url + "/api/user?type=signin";
-
-    axios.post(url, {
-      "email": this.state.email,
-      "password": this.state.password
-    }).then((response) => {
-      this.props.signIn(response.data.jwt);
-      this.setState({
-        "name": "",
-        "email": "",
-        "password": "",
-        "is_in_process": false
-      });
-      browserHistory.push("/group/list");
-    }).catch((error) => {
-      alert(error.response.data.message);
-      this.setState({
-        "is_in_process": false
-      });
-    });
-  };
-
-  handleSignupSubmit = (e) => {
-    e.preventDefault();
-
-    this.setState({
-      "is_in_process": true
-    });
-
-    let url = this.props.api_url + "/api/user?type=signup";
-
-    axios.post(url, {
-      "name": this.state.name,
-      "email": this.state.email,
-      "password": this.state.password
-    }).then((response) => {
-      this.setState({
-        "name": "",
-        "email": "",
-        "password": "",
-        "is_in_process": false
-      });
-      alert("가입이 완료되었습니다.");
-    }).catch((error) => {
-      alert(error.response.data.message);
-      this.setState({
-        "is_in_process": false
-      });
-    });
-  };
-
   handleSignoutClick = (e) => {
     browserHistory.push("/main");
     this.props.signOut();
   };
 
-  handleNameChange = (e) => {
-    this.setState({
-      "name": e.target.value
-    });
-  };
-
-  handleEmailChange = (e) => {
-    this.setState({
-      "email": e.target.value
-    });
-  };
-
-  handlePasswordChange = (e) => {
-    this.setState({
-      "password": e.target.value
-    });
-  };
-
   toggleMobileMenu = () => {
     this.setState({
       "is_mobile_menu_expanded": !this.state.is_mobile_menu_expanded
+    });
+  };
+
+  handleFacebookLogin = () => {
+    window.FB.login((response) => {
+      if(response.status === 'connected') {
+        let url = this.props.api_url + "/api/user?type=facebook";
+
+        this.setState({
+          "is_in_process": true
+        });
+
+        axios.post(url, response.authResponse).then((response) => {
+          this.props.signIn(response.data.jwt);
+          this.setState({
+            "name": "",
+            "email": "",
+            "password": "",
+            "is_in_process": false
+          });
+          browserHistory.push("/group/list");
+        }).catch((error) => {
+          alert(error.response.data.message);
+          this.setState({
+            "is_in_process": false
+          });
+        });
+      }
     });
   };
 
@@ -194,46 +147,10 @@ class Default extends React.Component {
 
                 <Menu.Menu position='right'>
                   {this.props.jwt === null &&
-                  <Modal trigger={<Menu.Item name='로그인' />} size='small'>
+                  <Modal closeIcon trigger={<Menu.Item name='로그인' />} size='small'>
                     <Header icon='sign in' content='로그인' />
                     <Modal.Content>
-                      <Form onSubmit={this.handleSigninSubmit}>
-                        <Form.Field>
-                          <label>이메일</label>
-                          <Input type="email" value={this.state.email} onChange={this.handleEmailChange} placeholder='이메일 입력' required />
-                        </Form.Field>
-
-                        <Form.Field>
-                          <label>비밀번호</label>
-                          <Input type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder='비밀번호 입력' required />
-                        </Form.Field>
-                        <Button type='submit' loading={this.state.is_in_process}>로그인</Button>
-                      </Form>
-                    </Modal.Content>
-                  </Modal>
-                  }
-
-                  {this.props.jwt === null &&
-                  <Modal trigger={<Menu.Item name='회원가입' />} size='small'>
-                    <Header icon='add user' content='회원가입' />
-                    <Modal.Content>
-                      <Form onSubmit={this.handleSignupSubmit}>
-                        <Form.Field>
-                          <label>이름</label>
-                          <Input type="text" value={this.state.name} onChange={this.handleNameChange} placeholder='이름 입력' />
-                        </Form.Field>
-
-                        <Form.Field>
-                          <label>이메일</label>
-                          <Input type="email" value={this.state.email} onChange={this.handleEmailChange} placeholder='이메일 입력' />
-                        </Form.Field>
-
-                        <Form.Field>
-                          <label>비밀번호</label>
-                          <Input type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder='비밀번호 입력' />
-                        </Form.Field>
-                        <Button type='submit' loading={this.state.is_in_process}>제출</Button>
-                      </Form>
+                      <Button color="facebook" type='button' loading={this.state.is_in_process} icon onClick={(e) => this.handleFacebookLogin()}><Icon name="facebook square" /> Facebook</Button>
                     </Modal.Content>
                   </Modal>
                   }
@@ -279,10 +196,6 @@ class Default extends React.Component {
                 <Menu.Item name="대기열" className={this.activeRoute("/queue")} /></Link>
               }
 
-              {this.props.jwt !== null && this.props.group_id !== null && this.state.is_mobile_menu_expanded &&
-              <Menu.Item>통계 (준비중)</Menu.Item>
-              }
-
               {this.props.jwt !== null && this.props.group_id !== null && this.props.role > 1 && this.state.is_mobile_menu_expanded &&
               <Dropdown item text='관리' className={this.activeRoute("/manage")}>
                 <Dropdown.Menu>
@@ -297,43 +210,7 @@ class Default extends React.Component {
               <Modal closeIcon trigger={<Menu.Item name='로그인' />} size='fullscreen'>
                 <Header icon='sign in' content='로그인' />
                 <Modal.Content>
-                  <Form onSubmit={this.handleSigninSubmit}>
-                    <Form.Field>
-                      <label>이메일</label>
-                      <Input type="email" value={this.state.email} onChange={this.handleEmailChange} placeholder='이메일 입력' required />
-                    </Form.Field>
-
-                    <Form.Field>
-                      <label>비밀번호</label>
-                      <Input type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder='비밀번호 입력' required />
-                    </Form.Field>
-                    <Button type='submit' loading={this.state.is_in_process}>로그인</Button>
-                  </Form>
-                </Modal.Content>
-              </Modal>
-              }
-
-              {this.props.jwt === null && this.state.is_mobile_menu_expanded &&
-              <Modal closeIcon trigger={<Menu.Item name='회원가입' />} size='fullscreen'>
-                <Header icon='add user' content='회원가입' />
-                <Modal.Content>
-                  <Form onSubmit={this.handleSignupSubmit}>
-                    <Form.Field>
-                      <label>이름</label>
-                      <Input type="text" value={this.state.name} onChange={this.handleNameChange} placeholder='이름 입력' />
-                    </Form.Field>
-
-                    <Form.Field>
-                      <label>이메일</label>
-                      <Input type="email" value={this.state.email} onChange={this.handleEmailChange} placeholder='이메일 입력' />
-                    </Form.Field>
-
-                    <Form.Field>
-                      <label>비밀번호</label>
-                      <Input type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder='비밀번호 입력' />
-                    </Form.Field>
-                    <Button type='submit' loading={this.state.is_in_process}>제출</Button>
-                  </Form>
+                  <Button color="facebook" type='button' fluid loading={this.state.is_in_process} icon onClick={(e) => this.handleFacebookLogin()}><Icon name="facebook square" /> Facebook</Button>
                 </Modal.Content>
               </Modal>
               }
@@ -352,7 +229,8 @@ class Default extends React.Component {
         <br/>
 
         <Header as="h5" textAlign="center" color="grey">
-          &copy; 2017 한양대학교 Lion Lab
+          &copy; 2014 - 2017 한양대학교 한기훈<br/>
+          <small>본 시스템은 한양대학교 Lion Lab 으로부터 서버를 지원받았습니다.</small>
         </Header>
 
         <br/>
