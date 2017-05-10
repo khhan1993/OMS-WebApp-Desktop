@@ -176,7 +176,7 @@ class ManageMember extends React.Component {
               <Form onSubmit={this.handleOnSubmit}>
                 <Form.Field>
                   <label>인증코드 (최대길이 64)</label>
-                  <Input type="text" value={this.state.new_signup_code} onChange={this.handleChange} placeholder="인증코드 입력 (비울 경우 본 그룹 가입 중지)" required />
+                  <Input type="text" value={this.state.new_signup_code} onChange={this.handleChange} placeholder="인증코드 입력 (비울 경우 본 그룹 가입 중지)" />
                 </Form.Field>
 
                 <Button fluid type='submit'>변경하기</Button>
@@ -220,7 +220,7 @@ class ManageMember extends React.Component {
               <Form onSubmit={this.handleOnSubmit}>
                 <Form.Field>
                   <label>인증코드 (최대길이 64)</label>
-                  <Input type="text" value={this.state.new_signup_code} onChange={this.handleChange} placeholder="인증코드 입력 (비울 경우 본 그룹 가입 중지)" required />
+                  <Input type="text" value={this.state.new_signup_code} onChange={this.handleChange} placeholder="인증코드 입력 (비울 경우 본 그룹 가입 중지)" />
                 </Form.Field>
 
                 <Button fluid type='submit'>변경하기</Button>
