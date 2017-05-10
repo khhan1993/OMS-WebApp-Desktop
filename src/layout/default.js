@@ -14,9 +14,6 @@ class Default extends React.Component {
     super(props);
 
     this.state = {
-      "name": "",
-      "email": "",
-      "password": "",
       "is_in_process": false,
       "is_mobile_menu_expanded": false,
       "check_jwt_valid_interval": null,
@@ -76,12 +73,10 @@ class Default extends React.Component {
           "is_in_process": true
         });
 
-        axios.post(url, response.authResponse).then((response) => {
+        axios.post(url, response.authResponse)
+          .then((response) => {
           this.props.signIn(response.data.jwt);
           this.setState({
-            "name": "",
-            "email": "",
-            "password": "",
             "is_in_process": false
           });
           browserHistory.push("/group/list");
@@ -91,6 +86,39 @@ class Default extends React.Component {
             "is_in_process": false
           });
         });
+      }
+    });
+  };
+
+  handleKakaoLogin = () => {
+    window.Kakao.Auth.login({
+      success: (authObj) => {
+        console.log(authObj);
+
+        let access_token = authObj['access_token'];
+        let url = this.props.api_url + "/api/user?type=kakao";
+
+        this.setState({
+          "is_in_process": true
+        });
+
+        axios.post(url, {
+          "accessToken": access_token
+        }).then((response) => {
+          this.props.signIn(response.data.jwt);
+          this.setState({
+            "is_in_process": false
+          });
+          //window.Kakao.Auth.logout();
+        }).catch((error) => {
+          alert(error.response.data.message);
+          this.setState({
+            "is_in_process": false
+          });
+        });
+      },
+      fail: (err) => {
+        console.log(err);
       }
     });
   };
@@ -151,6 +179,7 @@ class Default extends React.Component {
                     <Header icon='sign in' content='로그인' />
                     <Modal.Content>
                       <Button color="facebook" type='button' loading={this.state.is_in_process} icon onClick={(e) => this.handleFacebookLogin()}><Icon name="facebook square" /> Facebook</Button>
+                      <Button color='yellow' type="button" loading={this.state.is_in_process} icon onClick={(e) => this.handleKakaoLogin()}><Icon name="comment" /> Kakao</Button>
                     </Modal.Content>
                   </Modal>
                   }
@@ -210,7 +239,8 @@ class Default extends React.Component {
               <Modal closeIcon trigger={<Menu.Item name='로그인' />} size='fullscreen'>
                 <Header icon='sign in' content='로그인' />
                 <Modal.Content>
-                  <Button color="facebook" type='button' fluid loading={this.state.is_in_process} icon onClick={(e) => this.handleFacebookLogin()}><Icon name="facebook square" /> Facebook</Button>
+                  <Button color="facebook" type='button' loading={this.state.is_in_process} icon onClick={(e) => this.handleFacebookLogin()}><Icon name="facebook square" /> Facebook</Button>
+                  <Button color='yellow' type="button" loading={this.state.is_in_process} icon onClick={(e) => this.handleKakaoLogin()}><Icon name="comment" /> Kakao</Button>
                 </Modal.Content>
               </Modal>
               }
