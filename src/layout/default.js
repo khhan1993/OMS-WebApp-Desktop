@@ -109,6 +109,7 @@ class Default extends React.Component {
           this.setState({
             "is_in_process": false
           });
+          browserHistory.push("/group/list");
           //window.Kakao.Auth.logout();
         }).catch((error) => {
           alert(error.response.data.message);

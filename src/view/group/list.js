@@ -185,7 +185,7 @@ class GroupList extends React.Component {
                 {pageItems}
               </Button.Group>
 
-              <Modal closeIcon trigger={<Button basic fluid>새 그룹에 가입하기</Button>} size='small'>
+              <Modal closeIcon trigger={<Button basic fluid>다른 그룹에 가입하기</Button>} size='small'>
                 <Header icon='group' content='새 그룹에 가입' />
                 <Modal.Content>
                   <Form onSubmit={this.handleOnSubmit}>
@@ -232,7 +232,7 @@ class GroupList extends React.Component {
                 {pageItems}
               </Button.Group>
 
-              <Modal closeIcon trigger={<Button basic fluid>새 그룹에 가입하기</Button>} size='fullscreen'>
+              <Modal closeIcon trigger={<Button basic fluid>다른 그룹에 가입하기</Button>} size='fullscreen'>
                 <Header icon='group' content='새 그룹에 가입' />
                 <Modal.Content>
                   <Form onSubmit={this.handleOnSubmit}>

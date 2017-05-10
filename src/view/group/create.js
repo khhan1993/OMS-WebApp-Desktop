@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Grid, Header, Button, Form, Input, Segment, Loader, Dimmer } from 'semantic-ui-react';
 import axios from 'axios';
+import { browserHistory } from 'react-router';
 
 class GroupCreate extends React.Component {
 
@@ -41,6 +42,7 @@ class GroupCreate extends React.Component {
         "name": "",
         "is_on_creation": false
       });
+      browserHistory.push("/group/list");
     }).catch((error) => {
       alert(error.response.data.message);
 
