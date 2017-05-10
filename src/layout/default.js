@@ -102,7 +102,7 @@ class Default extends React.Component {
           <Grid.Row only="computer tablet">
             <Grid.Column>
               <Menu pointing secondary>
-                <Menu.Item header name="주문관리시스템" />
+                <Menu.Item header name="2017 HYU OMS" />
 
                 <Link to="/main"><Menu.Item name='메인' className={this.activeRoute("/main")} /></Link>
 
@@ -164,7 +164,7 @@ class Default extends React.Component {
           </Grid.Row>
           <Grid.Row only="mobile">
             <Menu fluid stackable>
-              <Menu.Item header onClick={(e) => this.toggleMobileMenu()}>주문관리시스템 &nbsp; <Icon name={this.state.is_mobile_menu_expanded ? "chevron up" : "chevron down"} /></Menu.Item>
+              <Menu.Item header onClick={(e) => this.toggleMobileMenu()}>2017 HYU OMS &nbsp; <Icon name={this.state.is_mobile_menu_expanded ? "chevron up" : "chevron down"} /></Menu.Item>
 
               {this.state.is_mobile_menu_expanded &&
               <Link to="/main"><Menu.Item name='메인' className={this.activeRoute("/main")} /></Link>
