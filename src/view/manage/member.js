@@ -172,7 +172,7 @@ class ManageMember extends React.Component {
                 <Loader active={this.state.is_on_update} />
               </Dimmer>
 
-              <Header as="h2" textAlign="center">그룹 가입 정보 설정</Header>
+              <Header as="h2" textAlign="center">그룹 가입 인증코드 <small>(그룹 번호 : {this.props.group_id})</small></Header>
               <Form onSubmit={this.handleOnSubmit}>
                 <Form.Field>
                   <label>인증코드 (최대길이 64)</label>
@@ -198,6 +198,7 @@ class ManageMember extends React.Component {
                     <Table.HeaderCell>#</Table.HeaderCell>
                     <Table.HeaderCell>이름</Table.HeaderCell>
                     <Table.HeaderCell colSpan="3">권한</Table.HeaderCell>
+                    <Table.HeaderCell>제거</Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
 
@@ -215,14 +216,14 @@ class ManageMember extends React.Component {
                 <Loader active={this.state.is_on_update} />
               </Dimmer>
 
-              <Header as="h2" textAlign="center">새 멤버 등록</Header>
+              <Header as="h2" textAlign="center">그룹 가입 정보 설정 <small>(그룹 번호 : {this.props.group_id})</small></Header>
               <Form onSubmit={this.handleOnSubmit}>
                 <Form.Field>
-                  <label>이메일 또는 회원번호</label>
-                  <Input type="text" value={this.state.new_member_info} onChange={this.handleChange} placeholder='이름 또는 회원번호 입력' required />
+                  <label>인증코드 (최대길이 64)</label>
+                  <Input type="text" value={this.state.new_signup_code} onChange={this.handleChange} placeholder="인증코드 입력 (비울 경우 본 그룹 가입 중지)" required />
                 </Form.Field>
 
-                <Button fluid type='submit'>추가하기</Button>
+                <Button fluid type='submit'>변경하기</Button>
               </Form>
             </Segment>
           </Grid.Column>
