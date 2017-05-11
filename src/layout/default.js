@@ -261,7 +261,6 @@ class Default extends React.Component {
 
         <Header as="h5" textAlign="center" color="grey">
           &copy; 2014 - 2017 한양대학교 한기훈<br/>
-          <small>본 시스템은 한양대학교 Lion Lab 으로부터 서버를 지원받았습니다.</small>
         </Header>
 
         <br/>
