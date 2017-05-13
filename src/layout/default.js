@@ -129,79 +129,13 @@ class Default extends React.Component {
       <div>
         <Grid container>
           <Grid.Row only="computer tablet">
-            <Grid.Column>
-              <Menu pointing secondary>
-                <Menu.Item header name="2017 HYU OMS" />
+            <Menu className="navbar page grid" borderless fixed="top">
+              <Menu.Item header name="2017 HYU OMS" />
 
-                <Link to="/main"><Menu.Item name='메인' className={this.activeRoute("/main")} /></Link>
-
-                {this.props.jwt !== null &&
-                <Dropdown item text="그룹" className={this.activeRoute("/group")}>
-                  <Dropdown.Menu>
-                    <Link to="/group/list"><Dropdown.Item>그룹 목록</Dropdown.Item></Link>
-                    <Link to="/group/create"><Dropdown.Item>그룹 생성</Dropdown.Item></Link>
-                  </Dropdown.Menu>
-                </Dropdown>
-                }
-
-                {this.props.jwt !== null && this.props.group_id !== null &&
-                <Dropdown item text='주문' className={this.activeRoute("/order")}>
-                  <Dropdown.Menu>
-                    <Link to="/order/request"><Dropdown.Item>주문 입력</Dropdown.Item></Link>
-                    <Link to="/order/list"><Dropdown.Item>주문 내역</Dropdown.Item></Link>
-                    {this.props.role > 0 &&
-                    <Link to="/order/verify"><Dropdown.Item>주문 처리</Dropdown.Item></Link>
-                    }
-                  </Dropdown.Menu>
-                </Dropdown>
-                }
-
-                {this.props.jwt !== null && this.props.group_id !== null &&
-                <Link to="/queue"><Menu.Item name="대기열" className={this.activeRoute("/queue")} /></Link>
-                }
-
-                {this.props.jwt !== null && this.props.group_id !== null &&
-                <Menu.Item>통계 (준비중)</Menu.Item>
-                }
-
-                {this.props.jwt !== null && this.props.group_id !== null && this.props.role > 1 &&
-                <Dropdown item text='관리' className={this.activeRoute("/manage")}>
-                  <Dropdown.Menu>
-                    <Link to="/manage/menu"><Dropdown.Item>메뉴 관리</Dropdown.Item></Link>
-                    <Link to="/manage/setmenu"><Dropdown.Item>세트메뉴 관리</Dropdown.Item></Link>
-                    <Link to="/manage/member"><Dropdown.Item>멤버 관리</Dropdown.Item></Link>
-                  </Dropdown.Menu>
-                </Dropdown>
-                }
-
-                <Menu.Menu position='right'>
-                  {this.props.jwt === null &&
-                  <Modal closeIcon trigger={<Menu.Item name='로그인' />} size='small'>
-                    <Header icon='sign in' content='로그인' />
-                    <Modal.Content>
-                      <Button color="facebook" type='button' loading={this.state.is_in_process} icon onClick={(e) => this.handleFacebookLogin()}><Icon name="facebook square" /> Facebook</Button>
-                      <Button color='yellow' type="button" loading={this.state.is_in_process} icon onClick={(e) => this.handleKakaoLogin()}><Icon name="comment" /> Kakao</Button>
-                    </Modal.Content>
-                  </Modal>
-                  }
-
-                  {this.props.jwt !== null &&
-                  <Menu.Item name='로그아웃' onClick={this.handleSignoutClick} />
-                  }
-                </Menu.Menu>
-              </Menu>
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row only="mobile">
-            <Menu fluid stackable>
-              <Menu.Item header onClick={(e) => this.toggleMobileMenu()}>2017 HYU OMS &nbsp; <Icon name={this.state.is_mobile_menu_expanded ? "chevron up" : "chevron down"} /></Menu.Item>
-
-              {this.state.is_mobile_menu_expanded &&
               <Link to="/main"><Menu.Item name='메인' className={this.activeRoute("/main")} /></Link>
-              }
 
-              {this.props.jwt !== null && this.state.is_mobile_menu_expanded &&
-              <Dropdown basic item text="그룹" className={this.activeRoute("/group")}>
+              {this.props.jwt !== null &&
+              <Dropdown item text="그룹" className={this.activeRoute("/group")}>
                 <Dropdown.Menu>
                   <Link to="/group/list"><Dropdown.Item>그룹 목록</Dropdown.Item></Link>
                   <Link to="/group/create"><Dropdown.Item>그룹 생성</Dropdown.Item></Link>
@@ -209,7 +143,7 @@ class Default extends React.Component {
               </Dropdown>
               }
 
-              {this.props.jwt !== null && this.props.group_id !== null && this.state.is_mobile_menu_expanded &&
+              {this.props.jwt !== null && this.props.group_id !== null &&
               <Dropdown item text='주문' className={this.activeRoute("/order")}>
                 <Dropdown.Menu>
                   <Link to="/order/request"><Dropdown.Item>주문 입력</Dropdown.Item></Link>
@@ -221,12 +155,15 @@ class Default extends React.Component {
               </Dropdown>
               }
 
-              {this.props.jwt !== null && this.props.group_id !== null && this.state.is_mobile_menu_expanded &&
-              <Link to="/queue">
-                <Menu.Item name="대기열" className={this.activeRoute("/queue")} /></Link>
+              {this.props.jwt !== null && this.props.group_id !== null &&
+              <Link to="/queue"><Menu.Item name="대기열" className={this.activeRoute("/queue")} /></Link>
               }
 
-              {this.props.jwt !== null && this.props.group_id !== null && this.props.role > 1 && this.state.is_mobile_menu_expanded &&
+              {this.props.jwt !== null && this.props.group_id !== null &&
+              <Menu.Item>통계 (준비중)</Menu.Item>
+              }
+
+              {this.props.jwt !== null && this.props.group_id !== null && this.props.role > 1 &&
               <Dropdown item text='관리' className={this.activeRoute("/manage")}>
                 <Dropdown.Menu>
                   <Link to="/manage/menu"><Dropdown.Item>메뉴 관리</Dropdown.Item></Link>
@@ -236,8 +173,75 @@ class Default extends React.Component {
               </Dropdown>
               }
 
+              <Menu.Menu position='right'>
+                {this.props.jwt === null &&
+                <Modal closeIcon trigger={<Menu.Item name='로그인' />} size='small'>
+                  <Header icon='sign in' content='로그인' />
+                  <Modal.Content>
+                    <Button color="facebook" type='button' loading={this.state.is_in_process} icon onClick={(e) => this.handleFacebookLogin()}><Icon name="facebook square" /> Facebook</Button>
+                    <Button color='yellow' type="button" loading={this.state.is_in_process} icon onClick={(e) => this.handleKakaoLogin()}><Icon name="comment" /> Kakao</Button>
+                  </Modal.Content>
+                </Modal>
+                }
+
+                {this.props.jwt !== null &&
+                <Menu.Item name='로그아웃' onClick={this.handleSignoutClick} />
+                }
+              </Menu.Menu>
+            </Menu>
+          </Grid.Row>
+          <Grid.Row only="mobile">
+            <Menu className="navbar active" borderless fluid stackable vertical>
+              <Menu.Item header onClick={(e) => this.toggleMobileMenu()}>2017 HYU OMS &nbsp; <Icon name={this.state.is_mobile_menu_expanded ? "chevron up" : "chevron down"} /></Menu.Item>
+
+              {this.state.is_mobile_menu_expanded &&
+              <Link to="/main"><Menu.Item header name='메인' className={this.activeRoute("/main")} /></Link>
+              }
+
+              {this.props.jwt !== null && this.state.is_mobile_menu_expanded &&
+              <Menu.Item>
+                <Menu.Header>그룹</Menu.Header>
+
+                <Menu.Menu>
+                  <Link to="/group/list"><Menu.Item name='그룹 목록' className={this.activeRoute("/group/list")} /></Link>
+                  <Link to="/group/create"><Menu.Item name='그룹 생성' className={this.activeRoute("/group/create")} /></Link>
+                </Menu.Menu>
+              </Menu.Item>
+              }
+
+              {this.props.jwt !== null && this.props.group_id !== null && this.state.is_mobile_menu_expanded &&
+              <Menu.Item>
+                <Menu.Header>주문</Menu.Header>
+
+                <Menu.Menu>
+                  <Link to="/order/request"><Menu.Item name='주문 입력' className={this.activeRoute("/order/request")} /></Link>
+                  <Link to="/order/list"><Menu.Item name='주문 내역' className={this.activeRoute("/order/list")} /></Link>
+                  {this.props.role > 0 &&
+                  <Link to="/order/verify"><Menu.Item name='주문 처리' className={this.activeRoute("/order/verify")} /></Link>
+                  }
+                </Menu.Menu>
+              </Menu.Item>
+              }
+
+              {this.props.jwt !== null && this.props.group_id !== null && this.state.is_mobile_menu_expanded &&
+              <Link to="/queue">
+                <Menu.Item header name="대기열" className={this.activeRoute("/queue")} /></Link>
+              }
+
+              {this.props.jwt !== null && this.props.group_id !== null && this.props.role > 1 && this.state.is_mobile_menu_expanded &&
+              <Menu.Item>
+                <Menu.Header>관리</Menu.Header>
+
+                <Menu.Menu>
+                  <Link to="/manage/menu"><Menu.Item name='메뉴 관리' className={this.activeRoute("/manage/menu")} /></Link>
+                  <Link to="/manage/setmenu"><Menu.Item name='세트메뉴 관리' className={this.activeRoute("/manage/setmenu")} /></Link>
+                  <Link to="/manage/member"><Menu.Item name='멤버 관리' className={this.activeRoute("/manage/member")} /></Link>
+                </Menu.Menu>
+              </Menu.Item>
+              }
+
               {this.props.jwt === null && this.state.is_mobile_menu_expanded &&
-              <Modal closeIcon trigger={<Menu.Item name='로그인' />} size='fullscreen'>
+              <Modal closeIcon trigger={<Menu.Item header name='로그인' />} size='fullscreen'>
                 <Header icon='sign in' content='로그인' />
                 <Modal.Content>
                   <Button color="facebook" type='button' loading={this.state.is_in_process} icon onClick={(e) => this.handleFacebookLogin()}><Icon name="facebook square" /> Facebook</Button>
@@ -247,7 +251,7 @@ class Default extends React.Component {
               }
 
               {this.props.jwt !== null && this.state.is_mobile_menu_expanded &&
-              <Menu.Item name='로그아웃' onClick={this.handleSignoutClick} />
+              <Menu.Item header name='로그아웃' onClick={this.handleSignoutClick} />
               }
             </Menu>
           </Grid.Row>
