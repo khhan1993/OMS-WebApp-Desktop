@@ -1,15 +1,48 @@
-body {
-    padding-top: 50px;
-    padding-bottom: 15px;
+body > .ui.container {
+  margin-top: 3em;
+  margin-bottom: 3em;
 }
 
-@media (max-width: 767px) {
-    body {
-        padding-top: 15px;
-    }
+.background{
+  background-image: url(./pexels-photo-165853.jpeg); 
+  background-size: cover;
 }
 
-.ui.grid > * {
-    padding-left: 0;
-    padding-right: 0;
+.cover{
+  background-color: rgba(0,0,0,0.5); 
+  margin: 0 auto; 
+  background-size: cover;
+}
+.cover > .ui.container{
+  padding: 1em 0em;
+}
+
+.pusher {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.pusher > .footer {
+  flex: 1;
+}
+
+#content{
+  flex: 1;
+}
+
+.masthead.segment {
+  min-height: 700px;
+  /*padding: 1em 0em;*/
+}
+.masthead h1.ui.header {
+  margin-top: 2.5em;
+  margin-bottom: 0em;
+  font-size: 4em;
+  font-weight: normal;
+
+}
+.masthead h2 {
+  font-size: 1.7em;
+  font-weight: normal;
 }

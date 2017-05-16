@@ -1,9 +1,19 @@
 import React from 'react';
-import { Grid, Message } from 'semantic-ui-react';
+import { Container, Segment, Grid, Message } from 'semantic-ui-react';
 
 class Main extends React.Component {
   render() {
     return (
+      <Segment textAlign="center" vertical className="masthead">
+       <Container text>
+        <Header as="h1" inverted>
+          휴:옴스
+        </Header>
+        <Header as="h2" inverted>
+          한양대 주문 관리 시스템
+        </Header>
+       </Container>
+      </Segment>
       <Grid container columns="equal">
         <Grid.Row centered>
           <Grid.Column computer={10} tablet={12} mobile={15}>
