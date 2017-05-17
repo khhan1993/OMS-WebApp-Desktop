@@ -15,7 +15,7 @@ class Default extends React.Component {
 
     this.state = {
       "is_in_process": false,
-      "is_mobile_menu_expanded": false,
+      "is_mobile_menu_expanded": true,
       "check_jwt_valid_interval": null,
       "remain_jwt_valid_time": null
     };
