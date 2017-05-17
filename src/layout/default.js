@@ -93,8 +93,6 @@ class Default extends React.Component {
   handleKakaoLogin = () => {
     window.Kakao.Auth.login({
       success: (authObj) => {
-        console.log(authObj);
-
         let access_token = authObj['access_token'];
         let url = this.props.api_url + "/api/user?type=kakao";
 
