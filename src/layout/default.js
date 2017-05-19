@@ -65,161 +65,102 @@ class Default extends React.Component {
     });
   };
 
-  handleFacebookLogin = () => {
-    window.FB.login((response) => {
-      if(response.status === 'connected') {
-        let url = this.props.api_url + "/api/user?type=facebook";
-
-        this.setState({
-          "is_in_process": true
-        });
-
-        axios.post(url, response.authResponse)
-          .then((response) => {
-          this.props.signIn(response.data.jwt);
-          this.setState({
-            "is_in_process": false
-          });
-          browserHistory.push("/group");
-        }).catch((error) => {
-          alert(error.response.data.message);
-          this.setState({
-            "is_in_process": false
-          });
-        });
-      }
-    });
-  };
-
-  handleKakaoLogin = () => {
-    window.Kakao.Auth.login({
-      success: (authObj) => {
-        let access_token = authObj['access_token'];
-        let url = this.props.api_url + "/api/user?type=kakao";
-
-        this.setState({
-          "is_in_process": true
-        });
-
-        axios.post(url, {
-          "accessToken": access_token
-        }).then((response) => {
-          this.props.signIn(response.data.jwt);
-          this.setState({
-            "is_in_process": false
-          });
-          browserHistory.push("/group");
-          //window.Kakao.Auth.logout();
-        }).catch((error) => {
-          alert(error.response.data.message);
-          this.setState({
-            "is_in_process": false
-          });
-        });
-      },
-      fail: (err) => {
-        console.log(err);
-      }
-    });
-  };
 
   render() {
     return (
+      <div>
+      {this.props.jwt !== null && 
+      <div className="background_menu">
+      }
+      {this.props.jwt === null &&
+      <div className="background">
+      }  
+        <div className="container">
+          <Navbar>
+            <div className="container">
+              <Navbar.Header>
+                <h2>HYUOMS</h2>
+              </Navbar.Header>
+              <Navbar.Collapse>
+                <Nav pullRight>
+                  {this.props.jwt !== null &&
+                  // <Dropdown item text="그룹" className={this.activeRoute("/group")}>
+                    <NavItem eventKey={1} href="/group" className={this.activeRoute("/group")}>GROUP</NavItem>
+                    
+                      // <Link to="/group/list"><Dropdown.Item>그룹 목록</Dropdown.Item></Link>
+                      // <Link to="/group/create"><Dropdown.Item>그룹 생성</Dropdown.Item></Link>
+                    // </Dropdown.Menu>
+                  // </Dropdown>
+                  }
 
-      <div className="container">
-        <Navbar>
-          <div className="container">
-            <Navbar.Header>
-              <h2>HYUOMS</h2>
-            </Navbar.Header>
-            <Navbar.Collapse>
-              <Nav pullRight>
-                {this.props.jwt !== null &&
-                // <Dropdown item text="그룹" className={this.activeRoute("/group")}>
-                  <NavItem eventKey={1} href="/group" className={this.activeRoute("/group")}>GROUP</NavItem>
-                  
-                    // <Link to="/group/list"><Dropdown.Item>그룹 목록</Dropdown.Item></Link>
-                    // <Link to="/group/create"><Dropdown.Item>그룹 생성</Dropdown.Item></Link>
-                  // </Dropdown.Menu>
-                // </Dropdown>
-                }
+                  {this.props.jwt !== null && this.props.group_id !== null &&
+                  // <Dropdown item text='주문' className={this.activeRoute("/order")}>
+                    <NavItem eventKey={2} href="/order/request" className={this.activeRoute("/order")}>ORDER</NavItem>
+                    // <Dropdown.Menu>
+                      // <Link to="/order/request"><Dropdown.Item>주문 입력</Dropdown.Item></Link>
+                      // <Link to="/order/list"><Dropdown.Item>주문 내역</Dropdown.Item></Link>
+                      // {this.props.role > 0 &&
+                      // <Link to="/order/verify"><Dropdown.Item>주문 처리</Dropdown.Item></Link>
+                      // }
+                    // </Dropdown.Menu>
+                  // </Dropdown>
+                  }
 
-                {this.props.jwt !== null && this.props.group_id !== null &&
-                // <Dropdown item text='주문' className={this.activeRoute("/order")}>
-                  <NavItem eventKey={2} href="/order/request" className={this.activeRoute("/order")}>ORDER</NavItem>
-                  // <Dropdown.Menu>
-                    // <Link to="/order/request"><Dropdown.Item>주문 입력</Dropdown.Item></Link>
-                    // <Link to="/order/list"><Dropdown.Item>주문 내역</Dropdown.Item></Link>
-                    // {this.props.role > 0 &&
-                    // <Link to="/order/verify"><Dropdown.Item>주문 처리</Dropdown.Item></Link>
-                    // }
-                  // </Dropdown.Menu>
-                // </Dropdown>
-                }
+                  {this.props.jwt !== null && this.props.group_id !== null &&
+                  <NavItem eventKey={3} href="/queue" className={this.activeRoute("/queue")}>QUEUE</NavItem>
+                  // <Link to="/queue"><Menu.Item name="대기열" className={this.activeRoute("/queue")} /></Link>
+                  }
 
-                {this.props.jwt !== null && this.props.group_id !== null &&
-                <NavItem eventKey={3} href="/queue" className={this.activeRoute("/queue")}>QUEUE</NavItem>
-                // <Link to="/queue"><Menu.Item name="대기열" className={this.activeRoute("/queue")} /></Link>
-                }
+                  {this.props.jwt !== null && this.props.group_id !== null &&
+                  <NavItem eventKey={4} href="#" className={this.activeRoute("/statistics")}>DASHBOARD</NavItem>
+                  // <Menu.Item>통계 (준비중)</Menu.Item>
+                  }
 
-                {this.props.jwt !== null && this.props.group_id !== null &&
-                <NavItem eventKey={4} href="#" className={this.activeRoute("/statistics")}>DASHBOARD</NavItem>
-                // <Menu.Item>통계 (준비중)</Menu.Item>
-                }
+                  {this.props.jwt !== null && this.props.group_id !== null && this.props.role > 1 &&
+                  <NavItem eventKey={5} href="/manage/menu" className={this.activeRoute("/manage")}>SETTING</NavItem>
+                  // <Dropdown item text='관리' className={this.activeRoute("/manage")}>
+                    // <Dropdown.Menu>
+                      // <Link to="/manage/menu"><Dropdown.Item>메뉴 관리</Dropdown.Item></Link>
+                      // <Link to="/manage/setmenu"><Dropdown.Item>세트메뉴 관리</Dropdown.Item></Link>
+                      // <Link to="/manage/member"><Dropdown.Item>멤버 관리</Dropdown.Item></Link>
+                    // </Dropdown.Menu>
+                  // </Dropdown>
+                  }
 
-                {this.props.jwt !== null && this.props.group_id !== null && this.props.role > 1 &&
-                <NavItem eventKey={5} href="/manage/menu" className={this.activeRoute("/manage")}>SETTING</NavItem>
-                // <Dropdown item text='관리' className={this.activeRoute("/manage")}>
-                  // <Dropdown.Menu>
-                    // <Link to="/manage/menu"><Dropdown.Item>메뉴 관리</Dropdown.Item></Link>
-                    // <Link to="/manage/setmenu"><Dropdown.Item>세트메뉴 관리</Dropdown.Item></Link>
-                    // <Link to="/manage/member"><Dropdown.Item>멤버 관리</Dropdown.Item></Link>
-                  // </Dropdown.Menu>
-                // </Dropdown>
-                }
-
-                // {this.props.jwt === null &&
-                // <Modal closeIcon trigger={<Menu.Item name='로그인' />} size='small'>
-                  // <Header icon='sign in' content='로그인' />
-                  // <Modal.Content>
-                    // <Button color="facebook" type='button' loading={this.state.is_in_process} icon onClick={(e) => this.handleFacebookLogin()}><Icon name="facebook square" /> Facebook</Button>
-                    // <Button color='yellow' type="button" loading={this.state.is_in_process} icon onClick={(e) => this.handleKakaoLogin()}><Icon name="comment" /> Kakao</Button>
-                  // </Modal.Content>
-                // </Modal>
-                // }
-
-                {this.props.jwt !== null &&
-                  <NavItem eventKey={6} href="#" onClick={this.handleSignoutClick}>LOGOUT</NavItem>
-                // <Menu.Item name='로그아웃' onClick={this.handleSignoutClick} />
-                }
-              </Nav>
-            </Navbar.Collapse>
+                  {this.props.jwt !== null &&
+                    <NavItem eventKey={6} href="#" onClick={this.handleSignoutClick}>LOGOUT</NavItem>
+                  // <Menu.Item name='로그아웃' onClick={this.handleSignoutClick} />
+                  }
+                </Nav>
+              </Navbar.Collapse>
+            </div>
+          </Navbar>
+          {this.props.jwt === null && 
+          <div className="masthead segment">
+            <div className="container">
+              <h1 className="text-center">휴:옴스</h1>
+              <h2 className="text-center">
+                한양대 축제 주점 관리 시스템
+                <br/><br/>
+                <Button className="btn btn-outline-primary fb" onClick={(e) => this.handleFacebookLogin()}>FACEBOOK LOGIN</Button>
+                <br/><br/>
+                <Button className="btn btn-outline-primary kakao" onClick={(e) => this.handleKakaoLogin()}>KAKAO LOGIN</Button>
+              </h2>
+            </div>
           </div>
-        </Navbar>
 
-        /* {this.props.children}*/
-        {this.props.jwt !== null &&
-        <div className="masthead segment">
-          <div className="container">
-            <h1 className="text-center">휴:옴스</h1>
-            <h2 className="text-center">
-              한양대 축제 주점 관리 시스템
-              <br/><br/>
-              <Button className="btn btn-outline-primary" onClick={(e) => this.handleFacebookLogin()}>FACEBOOK LOGIN</Button>
-              <br/><br/>
-              <Button className="btn btn-outline-primary kakao" onClick={(e) => this.handleKakaoLogin()}>KAKAO LOGIN</Button>
-            </h2>
+          <div className="footer">
+            <div className="container">
+              <br/>
+              <p className="text-center"><Glyphicon glyph="copyright-mark" ></Glyphicon> 2014-2017. 한양대학교 <b>한기훈</b> All Rights Reserved.</p>
+              <br/>
+            </div>
           </div>
+          }
+
         </div>
-        }
-
-        <div className="footer">
-          <div className="container">
-            <br/>
-            <p className="text-center"><Glyphicon glyph="copyright-mark" ></Glyphicon> 2014-2017. 한양대학교 <b>한기훈</b> All Rights Reserved.</p>
-            <br/>
-          </div>
-        </div>
+        {this.props.children}
+      </div>
       </div>
     );
   }
