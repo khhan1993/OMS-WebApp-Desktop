@@ -10,7 +10,7 @@ class Queue extends React.Component {
     this.state = {
       "queue": [],
       "is_loading": true,
-      "remaining_refresh_time": 15,
+      "remaining_refresh_time": 9,
       "auto_refresh_interval_ref": null
     };
   }
@@ -30,7 +30,7 @@ class Queue extends React.Component {
     if(this.state.remaining_refresh_time <= 0) {
       if(this.state.is_loading === false) {
         this.setState({
-          "remaining_refresh_time": 15
+          "remaining_refresh_time": 9
         });
 
         this.getQueue();

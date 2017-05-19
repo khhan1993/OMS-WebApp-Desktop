@@ -153,7 +153,7 @@ class Default extends React.Component {
               }
 
               {this.props.jwt !== null && this.props.group_id !== null &&
-              <Menu.Item>통계 (준비중)</Menu.Item>
+              <Link to="/statistics"><Menu.Item>통계</Menu.Item></Link>
               }
 
               {this.props.jwt !== null && this.props.group_id !== null && this.props.role > 1 &&
