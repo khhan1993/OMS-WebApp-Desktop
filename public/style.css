@@ -62,6 +62,11 @@ nav{
   background-image: url(./13305207_1024697040947671_363302639923098434_o.jpg); 
   background-size: cover;
 }
+.background_menu{
+  background-image: url(./13305207_1024697040947671_363302639923098434_o.jpg); 
+  background-size: cover;
+  background-position: center bottom;
+}
 
 .cover{
   background-color: rgba(0,0,0,0.5); 
@@ -112,7 +117,7 @@ nav{
   color: white;
 }
 
-.btn-outline-primary {
+.btn-outline-primary.fb {
   /*color: #0275d8;*/
   color:#00FFFF;
   background-image: none;
@@ -121,7 +126,7 @@ nav{
   border-color: #00FFFF;
 }
 
-.btn-outline-primary:hover {
+.btn-outline-primary.fb:hover {
   color: #fff;
   /*background-color: #0275d8;*/
   background-color: #00ced1;
@@ -129,18 +134,18 @@ nav{
   border-color: #00ced1;
 }
 
-.btn-outline-primary:focus, .btn-outline-primary.focus {
+.btn-outline-primary.fb:focus, .btn-outline-primary.fb.focus {
   -webkit-box-shadow: 0 0 0 2px rgba(2, 117, 216, 0.5);
           box-shadow: 0 0 0 2px rgba(2, 117, 216, 0.5);
 }
 
-.btn-outline-primary.disabled, .btn-outline-primary:disabled {
+.btn-outline-primary.fb.disabled, .btn-outline-primary.fb:disabled {
   color: #0275d8;
   background-color: transparent;
 }
 
-.btn-outline-primary:active, .btn-outline-primary.active,
-.show > .btn-outline-primary.dropdown-toggle {
+.btn-outline-primary.fb:active, .btn-outline-primary.fb.active,
+.show > .btn-outline-primary.fb.dropdown-toggle {
   color: #fff;
   /*background-color: #0275d8;*/
   background-color: #00ced1;
