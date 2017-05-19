@@ -170,10 +170,8 @@ class Statistics extends React.Component {
       if(this.state.statistics_data !== null) {
         let is_value_assigned = false;
         for(let delay of this.state.statistics_data.delays_per_menu) {
-          console.log(this.state.statistics_data.delays_per_menu);
           if(parseInt(delay['menu_id'], 10) === parseInt(item['id'], 10)) {
             let delayed_time = parseInt(Math.round(parseFloat(delay['avg_delay']) / 60.0), 10);
-            console.log(delayed_time);
             delay_data.push(delayed_time);
             is_value_assigned = true;
             break;
@@ -218,7 +216,7 @@ class Statistics extends React.Component {
     return (
       <Grid container columns="equal">
         <Grid.Row centered>
-          <Grid.Column width={13}>
+          <Grid.Column>
             <Segment>
               <Dimmer active={this.state.is_loading} inverted>
                 <Loader active={this.state.is_loading} />
@@ -226,7 +224,7 @@ class Statistics extends React.Component {
 
               <Header as="h3" textAlign="center">시간대별 주문 현황</Header>
 
-              <Line data={this.generateOrderStatusFromLast24Hours()} />
+              <Line data={this.generateOrderStatusFromLast24Hours()} height={75} />
             </Segment>
 
             <Segment>
@@ -236,7 +234,7 @@ class Statistics extends React.Component {
 
               <Header as="h3" textAlign="center">메뉴별 판매량 현황</Header>
 
-              <Bar data={this.generateSalesPerMenu()} />
+              <Bar data={this.generateSalesPerMenu()} height={75} />
             </Segment>
 
             <Segment>
@@ -246,7 +244,7 @@ class Statistics extends React.Component {
 
               <Header as="h3" textAlign="center">메뉴별 평균 준비 시간</Header>
 
-              <Bar data={this.generateDelaysPerMenu()} />
+              <Bar data={this.generateDelaysPerMenu()} height={75} />
             </Segment>
           </Grid.Column>
         </Grid.Row>
