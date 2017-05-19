@@ -6,6 +6,15 @@ body > .container {
 nav{
   margin-top: 1em;
 }
+.btn-default {
+  text-shadow: none;
+}
+.navbar-default {
+  background-image: none;
+  box-shadow: none;
+  background-color: transparent !important;
+  border-color:transparent !important;
+}
 .navbar-header > h2 {
   /*color:white;*/
   color: rgba(255, 255, 255, 0.85) !important;
@@ -133,8 +142,10 @@ nav{
 .btn-outline-primary:active, .btn-outline-primary.active,
 .show > .btn-outline-primary.dropdown-toggle {
   color: #fff;
-  background-color: #0275d8;
-  border-color: #0275d8;
+  /*background-color: #0275d8;*/
+  background-color: #00ced1;
+  /*border-color: #0275d8;*/
+  border-color: #00ced1;
 }
 
 .btn-outline-primary.kakao {
@@ -167,8 +178,10 @@ nav{
 .btn-outline-primary.kakao:active, .btn-outline-primary.kakao.active ,
 .show > .btn-outline-primary.kakao .dropdown-toggle {
   color: #fff;
-  background-color: #0275d8;
-  border-color: #0275d8;
+  /*background-color: #0275d8;*/
+  background-color: #ffd700;
+  /*border-color: #0275d8;*/
+  border-color: #ffd700;
 }
 
 .nav-tabs {

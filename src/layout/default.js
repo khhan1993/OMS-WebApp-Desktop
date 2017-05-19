@@ -1,6 +1,6 @@
 import React from 'react';
 // import { Container, Menu, Dropdown, Header, Modal, Button, Grid, Icon, Segment} from 'semantic-ui-react';
-import { Button, Navbar, Nav } from 'react-bootstrap';
+import { Glyphicon, Button, Navbar, Nav } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Link, browserHistory } from 'react-router';
@@ -127,7 +127,7 @@ class Default extends React.Component {
 
   render() {
     return (
-      <div class="container">
+      <div className="container">
         <Navbar>
           <div className="container">
             <Navbar.Header>
@@ -190,15 +190,37 @@ class Default extends React.Component {
                 // }
 
                 {this.props.jwt !== null &&
-                <NavItem eventKey={6} href="#" onClick={this.handleSignoutClick}}>LOGOUT</NavItem>
+                  <NavItem eventKey={6} href="#" onClick={this.handleSignoutClick}>LOGOUT</NavItem>
                 // <Menu.Item name='로그아웃' onClick={this.handleSignoutClick} />
                 }
-              </Navbar.Collapse>
-            </Nav>
+              </Nav>
+            </Navbar.Collapse>
           </div>
         </Navbar>
 
-        {this.props.children}
+        /* {this.props.children}*/
+        {this.props.jwt !== null &&
+        <div className="masthead segment">
+          <div className="container">
+            <h1 className="text-center">휴:옴스</h1>
+            <h2 className="text-center">
+              한양대 축제 주점 관리 시스템
+              <br/><br/>
+              <Button className="btn btn-outline-primary" onClick={(e) => this.handleFacebookLogin()}>FACEBOOK LOGIN</Button>
+              <br/><br/>
+              <Button className="btn btn-outline-primary kakao" onClick={(e) => this.handleKakaoLogin()}>KAKAO LOGIN</Button>
+            </h2>
+          </div>
+        </div>
+        }
+
+        <div className="footer">
+          <div className="container">
+            <br/>
+            <p className="text-center"><Glyphicon glyph="copyright-mark" ></Glyphicon> 2014-2017. 한양대학교 <b>한기훈</b> All Rights Reserved.</p>
+            <br/>
+          </div>
+        </div>
 
       </div>
     );
