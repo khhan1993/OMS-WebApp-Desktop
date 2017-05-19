@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Table, Grid, Header, Icon, Button, Segment, Dimmer, Loader, Label, Modal, Form, Input } from 'semantic-ui-react';
 
-import authAction from '../../action/index';
+import authAction from '../action/index';
 const { selectGroup } = authAction.auth;
 
 class GroupList extends React.Component {
@@ -18,7 +18,9 @@ class GroupList extends React.Component {
       "is_list_loading": true,
       "is_group_signup_processing": false,
       "new_signup_group_id": "",
-      "new_signup_code": ""
+      "new_signup_code": "",
+      "group_create_new_name": "",
+      "is_group_creation_processing": false
     }
   }
 
@@ -130,6 +132,44 @@ class GroupList extends React.Component {
     });
   };
 
+  handleChangeNewGroupName = (e) => {
+    this.setState({
+      "group_create_new_name": e.target.value
+    });
+  };
+
+  handleSubmitNewGroup = (e) => {
+    e.preventDefault();
+
+    this.setState({
+      "is_group_creation_processing": true
+    });
+
+    let url = this.props.api_url + "/api/group?jwt=" + this.props.jwt;
+    axios.post(url, {
+      "name": this.state.group_create_new_name
+    }).then((response) => {
+      let alert_msg = "그룹 생성이 완료되었습니다.\n";
+      alert_msg += "Group Name : " + this.state.group_create_new_name + "\n";
+      alert_msg += "Group ID : " + (response.data.group_id).toString();
+
+      alert(alert_msg);
+
+      this.setState({
+        "group_create_new_name": "",
+        "is_group_creation_processing": false
+      });
+
+      this.getGroupList(this.state.cur_page);
+    }).catch((error) => {
+      alert(error.response.data.message);
+
+      this.setState({
+        "is_group_creation_processing": false
+      });
+    });
+  };
+
   render() {
     let rowItems = this.state.list.map((rowItem) =>
       <Table.Row key={rowItem.id} active={rowItem.id === this.props.group_id}>
@@ -185,24 +225,40 @@ class GroupList extends React.Component {
                 {pageItems}
               </Button.Group>
 
-              <Modal closeIcon trigger={<Button basic fluid>다른 그룹에 가입하기</Button>} size='small'>
-                <Header icon='group' content='새 그룹에 가입' />
-                <Modal.Content>
-                  <Form onSubmit={this.handleOnSubmit}>
-                    <Form.Field>
-                      <label>그룹 고유번호</label>
-                      <Input type="number" placeholder='고유번호 입력' value={this.state.new_signup_group_id} onChange={this.handleChangeGroupId} required/>
-                    </Form.Field>
+              <Button.Group fluid>
+                <Modal closeIcon trigger={<Button>다른 그룹에 가입하기</Button>} size='small'>
+                  <Header icon='group' content='다른 그룹에 가입' />
+                  <Modal.Content>
+                    <Form onSubmit={this.handleOnSubmit}>
+                      <Form.Field>
+                        <label>그룹 고유번호</label>
+                        <Input type="number" placeholder='고유번호 입력' value={this.state.new_signup_group_id} onChange={this.handleChangeGroupId} required/>
+                      </Form.Field>
 
-                    <Form.Field>
-                      <label>가입 인증코드</label>
-                      <Input type="text" placeholder='인증코드 입력' value={this.state.new_signup_code} onChange={this.handleChangeCode} required />
-                    </Form.Field>
+                      <Form.Field>
+                        <label>가입 인증코드</label>
+                        <Input type="text" placeholder='인증코드 입력' value={this.state.new_signup_code} onChange={this.handleChangeCode} required />
+                      </Form.Field>
 
-                    <Button type='submit' loading={this.is_group_signup_processing}>가입</Button>
-                  </Form>
-                </Modal.Content>
-              </Modal>
+                      <Button type='submit' loading={this.is_group_signup_processing}>가입</Button>
+                    </Form>
+                  </Modal.Content>
+                </Modal>
+
+                <Modal closeIcon trigger={<Button primary>새 그룹 생성</Button>} size='small'>
+                  <Header icon='group' content='새 그룹 만들기' />
+                  <Modal.Content>
+                    <Form onSubmit={this.handleSubmitNewGroup}>
+                      <Form.Field>
+                        <label>새 그룹 이름</label>
+                        <Input type="text" placeholder='새 그룹 이름 입력' value={this.state.group_create_new_name} onChange={this.handleChangeNewGroupName} required />
+                      </Form.Field>
+
+                      <Button type='submit' loading={this.is_group_creation_processing}>생성</Button>
+                    </Form>
+                  </Modal.Content>
+                </Modal>
+              </Button.Group>
             </Segment>
           </Grid.Column>
         </Grid.Row>
@@ -232,24 +288,40 @@ class GroupList extends React.Component {
                 {pageItems}
               </Button.Group>
 
-              <Modal closeIcon trigger={<Button basic fluid>다른 그룹에 가입하기</Button>} size='fullscreen'>
-                <Header icon='group' content='새 그룹에 가입' />
-                <Modal.Content>
-                  <Form onSubmit={this.handleOnSubmit}>
-                    <Form.Field>
-                      <label>그룹 고유번호</label>
-                      <Input type="number" placeholder='고유번호 입력' value={this.state.new_signup_group_id} onChange={this.handleChangeGroupId} required/>
-                    </Form.Field>
+              <Button.Group fluid>
+                <Modal closeIcon trigger={<Button>다른 그룹 가입</Button>} size='small'>
+                  <Header icon='group' content='다른 그룹에 가입' />
+                  <Modal.Content>
+                    <Form onSubmit={this.handleOnSubmit}>
+                      <Form.Field>
+                        <label>그룹 고유번호</label>
+                        <Input type="number" placeholder='고유번호 입력' value={this.state.new_signup_group_id} onChange={this.handleChangeGroupId} required/>
+                      </Form.Field>
 
-                    <Form.Field>
-                      <label>가입 인증코드</label>
-                      <Input type="text" placeholder='인증코드 입력' value={this.state.new_signup_code} onChange={this.handleChangeCode} required />
-                    </Form.Field>
+                      <Form.Field>
+                        <label>가입 인증코드</label>
+                        <Input type="text" placeholder='인증코드 입력' value={this.state.new_signup_code} onChange={this.handleChangeCode} required />
+                      </Form.Field>
 
-                    <Button type='submit' loading={this.is_group_signup_processing}>가입</Button>
-                  </Form>
-                </Modal.Content>
-              </Modal>
+                      <Button type='submit' loading={this.is_group_signup_processing}>가입</Button>
+                    </Form>
+                  </Modal.Content>
+                </Modal>
+
+                <Modal closeIcon trigger={<Button primary>새 그룹 생성</Button>} size='small'>
+                  <Header icon='group' content='새 그룹 만들기' />
+                  <Modal.Content>
+                    <Form onSubmit={this.handleSubmitNewGroup}>
+                      <Form.Field>
+                        <label>새 그룹 이름</label>
+                        <Input type="text" placeholder='새 그룹 이름 입력' value={this.state.group_create_new_name} onChange={this.handleChangeNewGroupName} required />
+                      </Form.Field>
+
+                      <Button type='submit' loading={this.is_group_creation_processing}>생성</Button>
+                    </Form>
+                  </Modal.Content>
+                </Modal>
+              </Button.Group>
             </Segment>
           </Grid.Column>
         </Grid.Row>

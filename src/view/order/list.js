@@ -33,7 +33,7 @@ class OrderList extends React.Component {
       if(this.state.is_list_loading === false) {
         this.setState({
           "is_list_loading": true,
-          "remaining_refresh_time": 15
+          "remaining_refresh_time": 9
         });
 
         this.getOrderList(this.state.cur_page);
@@ -72,7 +72,7 @@ class OrderList extends React.Component {
   handleGetOrderListClick = (page_num) => {
     this.setState({
       "cur_page": page_num,
-      "remaining_refresh_time": 15
+      "remaining_refresh_time": 9
     });
 
     this.getOrderList(page_num);
