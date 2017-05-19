@@ -125,7 +125,7 @@ class Default extends React.Component {
 
   render() {
     return (
-<<<<<<< HEAD
+
       <div className="container">
         <Navbar>
           <div className="container">
@@ -136,7 +136,7 @@ class Default extends React.Component {
               <Nav pullRight>
                 {this.props.jwt !== null &&
                 // <Dropdown item text="그룹" className={this.activeRoute("/group")}>
-                  <NavItem eventKey={1} href="/group/list" className={this.activeRoute("/group")}>GROUP</NavItem>
+                  <NavItem eventKey={1} href="/group" className={this.activeRoute("/group")}>GROUP</NavItem>
                   
                     // <Link to="/group/list"><Dropdown.Item>그룹 목록</Dropdown.Item></Link>
                     // <Link to="/group/create"><Dropdown.Item>그룹 생성</Dropdown.Item></Link>
@@ -146,7 +146,7 @@ class Default extends React.Component {
 
                 {this.props.jwt !== null && this.props.group_id !== null &&
                 // <Dropdown item text='주문' className={this.activeRoute("/order")}>
-                  <NavItem eventKey={2} href="/group/request" className={this.activeRoute("/order")}>ORDER</NavItem>
+                  <NavItem eventKey={2} href="/order/request" className={this.activeRoute("/order")}>ORDER</NavItem>
                   // <Dropdown.Menu>
                     // <Link to="/order/request"><Dropdown.Item>주문 입력</Dropdown.Item></Link>
                     // <Link to="/order/list"><Dropdown.Item>주문 내역</Dropdown.Item></Link>
@@ -155,59 +155,6 @@ class Default extends React.Component {
                     // }
                   // </Dropdown.Menu>
                 // </Dropdown>
-=======
-      <div>
-        <Grid container>
-          <Grid.Row only="computer tablet">
-            <Menu className="navbar page grid" borderless fixed="top">
-              <Menu.Item header name="2017 HYU OMS" />
-
-              <Link to="/main"><Menu.Item name='메인' className={this.activeRoute("/main")} /></Link>
-
-              {this.props.jwt !== null &&
-              <Link to="/group"><Menu.Item name='그룹' className={this.activeRoute("/group")} /></Link>
-              }
-
-              {this.props.jwt !== null && this.props.group_id !== null &&
-              <Dropdown item text='주문' className={this.activeRoute("/order")}>
-                <Dropdown.Menu>
-                  <Link to="/order/request"><Dropdown.Item>주문 입력</Dropdown.Item></Link>
-                  <Link to="/order/list"><Dropdown.Item>주문 내역</Dropdown.Item></Link>
-                  {this.props.role > 0 &&
-                  <Link to="/order/verify"><Dropdown.Item>주문 처리</Dropdown.Item></Link>
-                  }
-                </Dropdown.Menu>
-              </Dropdown>
-              }
-
-              {this.props.jwt !== null && this.props.group_id !== null &&
-              <Link to="/queue"><Menu.Item name="대기열" className={this.activeRoute("/queue")} /></Link>
-              }
-
-              {this.props.jwt !== null && this.props.group_id !== null &&
-              <Link to="/statistics"><Menu.Item>통계</Menu.Item></Link>
-              }
-
-              {this.props.jwt !== null && this.props.group_id !== null && this.props.role > 1 &&
-              <Dropdown item text='관리' className={this.activeRoute("/manage")}>
-                <Dropdown.Menu>
-                  <Link to="/manage/menu"><Dropdown.Item>메뉴 관리</Dropdown.Item></Link>
-                  <Link to="/manage/setmenu"><Dropdown.Item>세트메뉴 관리</Dropdown.Item></Link>
-                  <Link to="/manage/member_and_group"><Dropdown.Item>그룹/멤버 관리</Dropdown.Item></Link>
-                </Dropdown.Menu>
-              </Dropdown>
-              }
-
-              <Menu.Menu position='right'>
-                {this.props.jwt === null &&
-                <Modal closeIcon trigger={<Menu.Item name='로그인' />} size='small'>
-                  <Header icon='sign in' content='로그인' />
-                  <Modal.Content>
-                    <Button color="facebook" type='button' loading={this.state.is_in_process} icon onClick={(e) => this.handleFacebookLogin()}><Icon name="facebook square" /> Facebook</Button>
-                    <Button color='yellow' type="button" loading={this.state.is_in_process} icon onClick={(e) => this.handleKakaoLogin()}><Icon name="comment" /> Kakao</Button>
-                  </Modal.Content>
-                </Modal>
->>>>>>> khhan1993/master
                 }
 
                 {this.props.jwt !== null && this.props.group_id !== null &&
@@ -216,7 +163,7 @@ class Default extends React.Component {
                 }
 
                 {this.props.jwt !== null && this.props.group_id !== null &&
-                <NavItem eventKey={4} href="#" className={this.activeRoute("/dashboard")}>DASHBOARD</NavItem>
+                <NavItem eventKey={4} href="#" className={this.activeRoute("/statistics")}>DASHBOARD</NavItem>
                 // <Menu.Item>통계 (준비중)</Menu.Item>
                 }
 
@@ -245,7 +192,6 @@ class Default extends React.Component {
                   <NavItem eventKey={6} href="#" onClick={this.handleSignoutClick}>LOGOUT</NavItem>
                 // <Menu.Item name='로그아웃' onClick={this.handleSignoutClick} />
                 }
-<<<<<<< HEAD
               </Nav>
             </Navbar.Collapse>
           </div>
@@ -274,83 +220,6 @@ class Default extends React.Component {
             <br/>
           </div>
         </div>
-
-=======
-              </Menu.Menu>
-            </Menu>
-          </Grid.Row>
-          <Grid.Row only="mobile">
-            <Menu className="navbar active" borderless fluid stackable vertical>
-              <Menu.Item header onClick={(e) => this.toggleMobileMenu()}>2017 HYU OMS &nbsp; <Icon name={this.state.is_mobile_menu_expanded ? "chevron up" : "chevron down"} /></Menu.Item>
-
-              {this.state.is_mobile_menu_expanded &&
-              <Link to="/main"><Menu.Item header name='메인' className={this.activeRoute("/main")} /></Link>
-              }
-
-              {this.props.jwt !== null && this.state.is_mobile_menu_expanded &&
-              <Link to="/group"><Menu.Item header name='그룹' className={this.activeRoute("/group")} /></Link>
-              }
-
-              {this.props.jwt !== null && this.props.group_id !== null && this.state.is_mobile_menu_expanded &&
-              <Menu.Item>
-                <Menu.Header>주문</Menu.Header>
-
-                <Menu.Menu>
-                  <Link to="/order/request"><Menu.Item name='주문 입력' className={this.activeRoute("/order/request")} /></Link>
-                  <Link to="/order/list"><Menu.Item name='주문 내역' className={this.activeRoute("/order/list")} /></Link>
-                  {this.props.role > 0 &&
-                  <Link to="/order/verify"><Menu.Item name='주문 처리' className={this.activeRoute("/order/verify")} /></Link>
-                  }
-                </Menu.Menu>
-              </Menu.Item>
-              }
-
-              {this.props.jwt !== null && this.props.group_id !== null && this.state.is_mobile_menu_expanded &&
-              <Link to="/queue">
-                <Menu.Item header name="대기열" className={this.activeRoute("/queue")} /></Link>
-              }
-
-              {this.props.jwt !== null && this.props.group_id !== null && this.props.role > 1 && this.state.is_mobile_menu_expanded &&
-              <Menu.Item>
-                <Menu.Header>관리</Menu.Header>
-
-                <Menu.Menu>
-                  <Link to="/manage/menu"><Menu.Item name='메뉴 관리' className={this.activeRoute("/manage/menu")} /></Link>
-                  <Link to="/manage/setmenu"><Menu.Item name='세트메뉴 관리' className={this.activeRoute("/manage/setmenu")} /></Link>
-                  <Link to="/manage/member_and_group"><Menu.Item name='그룹/멤버 관리' className={this.activeRoute("/manage/member_and_group")} /></Link>
-                </Menu.Menu>
-              </Menu.Item>
-              }
-
-              {this.props.jwt === null && this.state.is_mobile_menu_expanded &&
-              <Modal closeIcon trigger={<Menu.Item header name='로그인' />} size='fullscreen'>
-                <Header icon='sign in' content='로그인' />
-                <Modal.Content>
-                  <Button color="facebook" type='button' loading={this.state.is_in_process} icon onClick={(e) => this.handleFacebookLogin()}><Icon name="facebook square" /> Facebook</Button>
-                  <Button color='yellow' type="button" loading={this.state.is_in_process} icon onClick={(e) => this.handleKakaoLogin()}><Icon name="comment" /> Kakao</Button>
-                </Modal.Content>
-              </Modal>
-              }
-
-              {this.props.jwt !== null && this.state.is_mobile_menu_expanded &&
-              <Menu.Item header name='로그아웃' onClick={this.handleSignoutClick} />
-              }
-            </Menu>
-          </Grid.Row>
-        </Grid>
-
-        <br/>
-
-        {this.props.children}
-
-        <br/>
-
-        <Header as="h5" textAlign="center" color="grey">
-          &copy; 2014 - 2017 한양대학교 한기훈<br/>
-        </Header>
-
-        <br/>
->>>>>>> khhan1993/master
       </div>
     );
   }
