@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Grid, Header, Button, Form, Input, Table, Icon, Segment, Loader, Dimmer, Popup } from 'semantic-ui-react';
+import { browserHistory } from 'react-router';
 import axios from 'axios';
 
 import authAction from '../../action/index';
@@ -122,6 +123,21 @@ class ManageMember extends React.Component {
     }
   };
 
+  disableGroup = () => {
+    if(confirm("그룹을 삭제하면 다시 되돌릴 수 없습니다. 계속하시겠습니까?")) {
+      let url = this.props.api_url + "/api/group/" + (this.props.group_id).toString() + "?jwt=" + this.props.jwt;
+
+      axios.delete(url)
+        .then((response) => {
+          alert("그룹이 성공적으로 삭제되었습니다!");
+          browserHistory.push("/group");
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    }
+  };
+
   render() {
     let member_list = this.state.member_list.map((member) =>
       <Table.Row key={member.id}>
@@ -137,6 +153,22 @@ class ManageMember extends React.Component {
           <Popup trigger={<Icon name='wizard' />} header="최고 관리자" />
         </Table.Cell>
         <Table.Cell selectable onClick={(e) => this.deleteMember(member)}><Icon name="trash outline" /></Table.Cell>
+      </Table.Row>
+    );
+
+    let member_list_mobile = this.state.member_list.map((member) =>
+      <Table.Row key={member.id}>
+        <Table.Cell>{member.name}</Table.Cell>
+        <Table.Cell selectable active={parseInt(member.role, 10) === 0} onClick={(e) => this.changeMemberRole(member, 0)}>
+          <Popup trigger={<Icon name='user' />} header="일반 유저" />
+        </Table.Cell>
+        <Table.Cell selectable active={parseInt(member.role, 10) === 1} onClick={(e) => this.changeMemberRole(member, 1)}>
+          <Popup trigger={<Icon name='key' />} header="중간 관리자" />
+        </Table.Cell>
+        <Table.Cell selectable active={parseInt(member.role, 10) === 2} onClick={(e) => this.changeMemberRole(member, 2)}>
+          <Popup trigger={<Icon name='wizard' />} header="최고 관리자" />
+        </Table.Cell>
+        <Table.Cell warning selectable onClick={(e) => this.deleteMember(member)}><Icon name="trash outline" /></Table.Cell>
       </Table.Row>
     );
 
@@ -181,6 +213,10 @@ class ManageMember extends React.Component {
 
                 <Button fluid type='submit'>변경하기</Button>
               </Form>
+
+              <hr/>
+
+              <Button fluid type='button' color="red" onClick={(e) => this.disableGroup()}>그룹 삭제</Button>
             </Segment>
           </Grid.Column>
         </Grid.Row>
@@ -195,15 +231,14 @@ class ManageMember extends React.Component {
               <Table unstackable celled textAlign="center">
                 <Table.Header>
                   <Table.Row>
-                    <Table.HeaderCell>#</Table.HeaderCell>
                     <Table.HeaderCell>이름</Table.HeaderCell>
-                    <Table.HeaderCell colSpan="3">권한</Table.HeaderCell>
+                    <Table.HeaderCell colSpan="3">권한 설정 및 제거</Table.HeaderCell>
                     <Table.HeaderCell>제거</Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
 
                 <Table.Body>
-                  {member_list}
+                  {member_list_mobile}
                 </Table.Body>
               </Table>
             </Segment>
@@ -225,6 +260,10 @@ class ManageMember extends React.Component {
 
                 <Button fluid type='submit'>변경하기</Button>
               </Form>
+
+              <hr/>
+
+              <Button fluid type='button' color="red" onClick={(e) => this.disableGroup()}>그룹 삭제</Button>
             </Segment>
           </Grid.Column>
         </Grid.Row>

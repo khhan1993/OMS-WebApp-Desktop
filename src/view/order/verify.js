@@ -71,7 +71,7 @@ class OrderVerify extends React.Component {
   handleGetOrderListClick = (page_num) => {
     this.setState({
       "cur_page": page_num,
-      "remaining_refresh_time": 15
+      "remaining_refresh_time": 9
     });
 
     this.getOrderList(page_num);
@@ -94,7 +94,7 @@ class OrderVerify extends React.Component {
         "is_approved": is_approved
       }).then((response) => {
         this.setState({
-          "remaining_refresh_time": 15
+          "remaining_refresh_time": 9
         });
 
         this.getOrderList(this.state.cur_page);
