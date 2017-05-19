@@ -79,7 +79,7 @@ class Default extends React.Component {
           this.setState({
             "is_in_process": false
           });
-          browserHistory.push("/group/list");
+          browserHistory.push("/group");
         }).catch((error) => {
           alert(error.response.data.message);
           this.setState({
@@ -107,7 +107,7 @@ class Default extends React.Component {
           this.setState({
             "is_in_process": false
           });
-          browserHistory.push("/group/list");
+          browserHistory.push("/group");
           //window.Kakao.Auth.logout();
         }).catch((error) => {
           alert(error.response.data.message);
@@ -133,12 +133,7 @@ class Default extends React.Component {
               <Link to="/main"><Menu.Item name='메인' className={this.activeRoute("/main")} /></Link>
 
               {this.props.jwt !== null &&
-              <Dropdown item text="그룹" className={this.activeRoute("/group")}>
-                <Dropdown.Menu>
-                  <Link to="/group/list"><Dropdown.Item>그룹 목록</Dropdown.Item></Link>
-                  <Link to="/group/create"><Dropdown.Item>그룹 생성</Dropdown.Item></Link>
-                </Dropdown.Menu>
-              </Dropdown>
+              <Link to="/group"><Menu.Item name='그룹' className={this.activeRoute("/group")} /></Link>
               }
 
               {this.props.jwt !== null && this.props.group_id !== null &&
@@ -166,7 +161,7 @@ class Default extends React.Component {
                 <Dropdown.Menu>
                   <Link to="/manage/menu"><Dropdown.Item>메뉴 관리</Dropdown.Item></Link>
                   <Link to="/manage/setmenu"><Dropdown.Item>세트메뉴 관리</Dropdown.Item></Link>
-                  <Link to="/manage/member"><Dropdown.Item>멤버 관리</Dropdown.Item></Link>
+                  <Link to="/manage/member_and_group"><Dropdown.Item>그룹/멤버 관리</Dropdown.Item></Link>
                 </Dropdown.Menu>
               </Dropdown>
               }
@@ -197,14 +192,7 @@ class Default extends React.Component {
               }
 
               {this.props.jwt !== null && this.state.is_mobile_menu_expanded &&
-              <Menu.Item>
-                <Menu.Header>그룹</Menu.Header>
-
-                <Menu.Menu>
-                  <Link to="/group/list"><Menu.Item name='그룹 목록' className={this.activeRoute("/group/list")} /></Link>
-                  <Link to="/group/create"><Menu.Item name='그룹 생성' className={this.activeRoute("/group/create")} /></Link>
-                </Menu.Menu>
-              </Menu.Item>
+              <Link to="/group"><Menu.Item header name='그룹' className={this.activeRoute("/group")} /></Link>
               }
 
               {this.props.jwt !== null && this.props.group_id !== null && this.state.is_mobile_menu_expanded &&
@@ -233,7 +221,7 @@ class Default extends React.Component {
                 <Menu.Menu>
                   <Link to="/manage/menu"><Menu.Item name='메뉴 관리' className={this.activeRoute("/manage/menu")} /></Link>
                   <Link to="/manage/setmenu"><Menu.Item name='세트메뉴 관리' className={this.activeRoute("/manage/setmenu")} /></Link>
-                  <Link to="/manage/member"><Menu.Item name='멤버 관리' className={this.activeRoute("/manage/member")} /></Link>
+                  <Link to="/manage/member_and_group"><Menu.Item name='그룹/멤버 관리' className={this.activeRoute("/manage/member_and_group")} /></Link>
                 </Menu.Menu>
               </Menu.Item>
               }
