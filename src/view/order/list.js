@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Grid, Header, Button, Table, Icon, Segment, Loader, Dimmer, Label } from 'semantic-ui-react';
-import { Table } from 'react-bootstrap';
 import axios from 'axios';
 
 class OrderList extends React.Component {
@@ -142,29 +141,29 @@ class OrderList extends React.Component {
 
   render() {
     let rowItems = this.state.list.map((rowItem) =>
-      <tr key={rowItem.id} negative={parseInt(rowItem.status, 10) === -1} positive={parseInt(rowItem.status, 10) === 1}>
-        <td>{rowItem.id}</td>
-        <td>{rowItem.name}</td>
-        <td selectable onClick={(e) => this.handleGetOrderInfo(rowItem)}>
+      <Table.Row key={rowItem.id} negative={parseInt(rowItem.status, 10) === -1} positive={parseInt(rowItem.status, 10) === 1}>
+        <Table.Cell>{rowItem.id}</Table.Cell>
+        <Table.Cell>{rowItem.name}</Table.Cell>
+        <Table.Cell selectable onClick={(e) => this.handleGetOrderInfo(rowItem)}>
           <Label active={rowItem.is_loading === true}>눌러서 확인</Label>
-        </td>
-        <td>{rowItem.total_price}</td>
-        <td>{rowItem.table_id}</td>
-        <td>{this.getDateString(rowItem.created_at)}</td>
-        <td>{this.getStatusIcon(rowItem.status)}</td>
-      </tr>
+        </Table.Cell>
+        <Table.Cell>{rowItem.total_price}</Table.Cell>
+        <Table.Cell>{rowItem.table_id}</Table.Cell>
+        <Table.Cell>{this.getDateString(rowItem.created_at)}</Table.Cell>
+        <Table.Cell>{this.getStatusIcon(rowItem.status)}</Table.Cell>
+      </Table.Row>
     );
 
     let rowItemsMobile = this.state.list.map((rowItem) =>
-      <tr key={rowItem.id} negative={parseInt(rowItem.status, 10) === -1} positive={parseInt(rowItem.status, 10) === 1}>
-        <td>{rowItem.id}</td>
-        <td selectable onClick={(e) => this.handleGetOrderInfo(rowItem)}>
+      <Table.Row key={rowItem.id} negative={parseInt(rowItem.status, 10) === -1} positive={parseInt(rowItem.status, 10) === 1}>
+        <Table.Cell>{rowItem.id}</Table.Cell>
+        <Table.Cell selectable onClick={(e) => this.handleGetOrderInfo(rowItem)}>
           <Label active={rowItem.is_loading === true}>보기</Label>
-        </td>
-        <td>{rowItem.total_price}</td>
-        <td>{rowItem.table_id}</td>
-        <td>{this.getStatusIcon(rowItem.status)}</td>
-      </tr>
+        </Table.Cell>
+        <Table.Cell>{rowItem.total_price}</Table.Cell>
+        <Table.Cell>{rowItem.table_id}</Table.Cell>
+        <Table.Cell>{this.getStatusIcon(rowItem.status)}</Table.Cell>
+      </Table.Row>
     );
 
 
@@ -189,22 +188,22 @@ class OrderList extends React.Component {
                   <Icon name='time' /> {this.state.remaining_refresh_time}
                 </Label>
               </Header>
-              <Table responsive>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>주문자명</th>
-                    <th>내역</th>
-                    <th>총 가격</th>
-                    <th>테이블</th>
-                    <th>시간</th>
-                    <th>상태</th>
-                  </tr>
-                </thead>
+              <Table celled textAlign="center" size="small">
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>#</Table.HeaderCell>
+                    <Table.HeaderCell>주문자명</Table.HeaderCell>
+                    <Table.HeaderCell>내역</Table.HeaderCell>
+                    <Table.HeaderCell>총 가격</Table.HeaderCell>
+                    <Table.HeaderCell>테이블</Table.HeaderCell>
+                    <Table.HeaderCell>시간</Table.HeaderCell>
+                    <Table.HeaderCell>상태</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
 
-                <tbody>
+                <Table.Body>
                   {rowItems}
-                </tbody>
+                </Table.Body>
               </Table>
 
               <Button.Group fluid>
@@ -228,18 +227,18 @@ class OrderList extends React.Component {
               </Header>
               <Table celled unstackable textAlign="center" size="small">
                 <Table.Header>
-                  <tr>
-                    <th>#</th>
-                    <th>내역</th>
-                    <th>가격</th>
-                    <th>테이블</th>
-                    <th>상태</th>
-                  </tr>
+                  <Table.Row>
+                    <Table.HeaderCell>#</Table.HeaderCell>
+                    <Table.HeaderCell>내역</Table.HeaderCell>
+                    <Table.HeaderCell>가격</Table.HeaderCell>
+                    <Table.HeaderCell>테이블</Table.HeaderCell>
+                    <Table.HeaderCell>상태</Table.HeaderCell>
+                  </Table.Row>
                 </Table.Header>
 
-                <tbody>
+                <Table.Body>
                   {rowItemsMobile}
-                </tbody>
+                </Table.Body>
               </Table>
 
               <Button.Group fluid>
