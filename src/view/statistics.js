@@ -66,7 +66,7 @@ class Statistics extends React.Component {
         label += 24;
       }
 
-      labels.push(label);
+      labels.push(label.toString() + "시");
     }
     let cnt_data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -83,21 +83,21 @@ class Statistics extends React.Component {
       labels: labels,
       datasets: [
         {
-          label: "시간별 주문 현황",
+          label: "주문 횟수",
           fill: false,
           lineTension: 0.1,
-          backgroundColor: "rgba(0,84,255,0.4)",
-          borderColor: "rgba(0,216,255,1)",
+          backgroundColor: "rgba(0,255,0,1)",
+          borderColor: "rgba(0,255,0,1)",
           borderCapStyle: 'butt',
           borderDash: [],
           borderDashOffset: 0.0,
           borderJoinStyle: 'miter',
-          pointBorderColor: "rgba(75,192,192,1)",
+          pointBorderColor: "rgba(0,255,0,1)",
           pointBackgroundColor: "#fff",
           pointBorderWidth: 1,
           pointHoverRadius: 5,
-          pointHoverBackgroundColor: "rgba(75,192,192,1)",
-          pointHoverBorderColor: "rgba(220,220,220,1)",
+          pointHoverBackgroundColor: "rgba(0,255,0,0.75)",
+          pointHoverBorderColor: "rgba(0,255,0,0.75)",
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
@@ -134,24 +134,15 @@ class Statistics extends React.Component {
       labels: labels,
       datasets: [
         {
-          label: "총 판매량",
+          label: "판매 수량",
           fill: false,
           lineTension: 0.1,
           backgroundColor: "rgba(75,192,192,0.4)",
-          borderColor: "rgba(75,192,192,1)",
+          borderColor: "rgba(255,255,255,1)",
           borderCapStyle: 'butt',
           borderDash: [],
           borderDashOffset: 0.0,
           borderJoinStyle: 'miter',
-          pointBorderColor: "rgba(75,192,192,1)",
-          pointBackgroundColor: "#fff",
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: "rgba(75,192,192,1)",
-          pointHoverBorderColor: "rgba(220,220,220,1)",
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
           data: sales_data,
           spanGaps: true,
         }
@@ -165,7 +156,6 @@ class Statistics extends React.Component {
 
     for(let item of this.state.menu_list) {
       labels.push(item['name']);
-
 
       if(this.state.statistics_data !== null) {
         let is_value_assigned = false;
@@ -191,21 +181,43 @@ class Statistics extends React.Component {
           fill: false,
           lineTension: 0.1,
           backgroundColor: "rgba(255,187,0,0.4)",
-          borderColor: "rgba(255,228,0,1)",
+          borderColor: "rgba(255,255,255,1)",
           borderCapStyle: 'butt',
           borderDash: [],
           borderDashOffset: 0.0,
           borderJoinStyle: 'miter',
-          pointBorderColor: "rgba(75,192,192,1)",
-          pointBackgroundColor: "#fff",
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: "rgba(75,192,192,1)",
-          pointHoverBorderColor: "rgba(220,220,220,1)",
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
           data: delay_data,
+          spanGaps: true,
+        }
+      ]
+    };
+  };
+
+  generateMemberOrderRanking = () => {
+    let labels = [];
+    let data = [];
+
+    if(this.state.statistics_data !== null) {
+      for(let rank of this.state.statistics_data.order_rank_list) {
+        labels.push(rank['name']);
+        data.push(rank['cnt']);
+      }
+    }
+
+    return {
+      labels: labels,
+      datasets: [
+        {
+          label: "주문 받은 횟수",
+          fill: false,
+          lineTension: 0.1,
+          backgroundColor: "rgba(127,127,127,0.4)",
+          borderColor: "rgba(255,255,255,1)",
+          borderCapStyle: 'butt',
+          borderDash: [],
+          borderDashOffset: 0.0,
+          borderJoinStyle: 'miter',
+          data: data,
           spanGaps: true,
         }
       ]
@@ -224,7 +236,7 @@ class Statistics extends React.Component {
 
               <Header as="h3" textAlign="center">시간대별 주문 현황</Header>
 
-              <Line data={this.generateOrderStatusFromLast24Hours()} height={75} />
+              <Line data={this.generateOrderStatusFromLast24Hours()} height={50} />
             </Segment>
 
             <Segment>
@@ -232,9 +244,9 @@ class Statistics extends React.Component {
                 <Loader active={this.state.is_loading} />
               </Dimmer>
 
-              <Header as="h3" textAlign="center">메뉴별 판매량 현황</Header>
+              <Header as="h3" textAlign="center">메뉴별 판매량</Header>
 
-              <Bar data={this.generateSalesPerMenu()} height={75} />
+              <Bar data={this.generateSalesPerMenu()} height={50} />
             </Segment>
 
             <Segment>
@@ -244,7 +256,17 @@ class Statistics extends React.Component {
 
               <Header as="h3" textAlign="center">메뉴별 평균 준비 시간</Header>
 
-              <Bar data={this.generateDelaysPerMenu()} height={75} />
+              <Bar data={this.generateDelaysPerMenu()} height={50} />
+            </Segment>
+
+            <Segment>
+              <Dimmer active={this.state.is_loading} inverted>
+                <Loader active={this.state.is_loading} />
+              </Dimmer>
+
+              <Header as="h3" textAlign="center">멤버 간 주문 순위</Header>
+
+              <Bar data={this.generateMemberOrderRanking()} height={50} />
             </Segment>
           </Grid.Column>
         </Grid.Row>
