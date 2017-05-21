@@ -198,13 +198,13 @@ class Default extends React.Component {
           </div>
           }
           {this.getCurrentRoute()[1]==='group' &&
-          <h2>그룹<br/><br/></h2>
+          <h2>그룹</h2>
           }
           {this.getCurrentRoute()[1]==='queue' &&
-          <h2>대기열<br/><br/></h2>
+          <h2>대기열</h2>
           }
           {this.getCurrentRoute()[1]==='statistics' &&
-          <h2>통계<br/><br/></h2>
+          <h2>통계</h2>
           }
           {this.getCurrentRoute()[1]==='order' &&
 	  <div>
