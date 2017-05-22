@@ -8,6 +8,7 @@ nav{
 }
 .nav-tabs {
   border-bottom: 0px !important;
+  display: flex;
 }
 .btn-default {
   text-shadow: none;
@@ -42,16 +43,21 @@ nav{
   background: rgba(255, 255, 255, 0.15) !important;
   color: #ffffff !important;
 }
-.nav-tabs>li>a, 
-.nav-tabs>li>a:focus, 
-.nav-tabs>li>a:hover{
+.nav>a>li>a,
+.nav>a>li>a:focus,
+.nav>a>li>a:hover {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+}
+.nav-tabs>a>li>a {
   color: rgba(255, 255, 255, 0.7);
   background: rgba(255, 255, 255, 0);
   border: none;
 }
-.nav-tabs>li.active>a, 
-.nav-tabs>li.active>a:focus, 
-.nav-tabs>li.active>a:hover{
+.nav-tabs>a>li>a:focus,
+.nav-tabs>a>li>a:hover,
+.nav-tabs>a>.active> a {
   color: rgba(255, 255, 255, 1);
   background: rgba(255, 255, 255, 0);
   border: none;

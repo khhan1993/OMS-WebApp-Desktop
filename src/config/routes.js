@@ -30,7 +30,7 @@ export default (
       <Route path="manage">
         <Route path="menu" component={ManageMenuView} />
         <Route path="setmenu" component={ManageSetmenuView} />
-        <Route path="member_and_group" component={ManageGroupAndMemberView} />
+        <Route path="group_and_member" component={ManageGroupAndMemberView} />
       </Route>
       <Route path="guide" component={GuideView}/>
       <IndexRedirect to="main" />
