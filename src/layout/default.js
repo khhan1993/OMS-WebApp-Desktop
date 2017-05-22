@@ -192,7 +192,7 @@ class Default extends React.Component {
           <div className="footer">
             <div className="container">
               <br/>
-              <p className="text-center"><Glyphicon glyph="copyright-mark" ></Glyphicon> 2014-2017. 한양대학교 <b>한기훈</b> All Rights Reserved.</p>
+              <p className="text-center"><Glyphicon glyph="copyright-mark" ></Glyphicon> 2014-2017. 한양대학교 <b>한기훈 주민건</b> All Rights Reserved.</p>
               <br/>
             </div>
           </div>
@@ -236,7 +236,7 @@ class Default extends React.Component {
       <div className="footer">
 	     <div className="container">
   	    <br/><br/>
-  	    <p className="text-center" style={{color:'black'}}><Glyphicon glyph="copyright-mark" ></Glyphicon> 2014-2017. 한양대학교 <b>한기훈</b> All Rights Reserved.</p>
+  	    <p className="text-center" style={{color:'black'}}><Glyphicon glyph="copyright-mark" ></Glyphicon> 2014-2017. 한양대학교 <b>한기훈 주민건</b> All Rights Reserved.</p>
         <br/>
        </div>
       </div>
