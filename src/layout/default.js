@@ -114,10 +114,10 @@ class Default extends React.Component {
       <div>
       <div className={this.props.jwt === null ? "background" : "background_menu"}>
         <div className="cover">
-	<div className="container">
+	       <div className="container">
           <Navbar>
-	    <div className="container">
-              <Navbar.Header>
+	         <div className="container">
+             <Navbar.Header>
                 <h2>HYUOMS</h2>
               </Navbar.Header>
               <Navbar>
@@ -187,8 +187,8 @@ class Default extends React.Component {
               </h2>
             </div>
           </div>
-	  }
-	  {this.props.jwt === null &&
+	        }
+	        {this.props.jwt === null &&
           <div className="footer">
             <div className="container">
               <br/>
@@ -207,38 +207,38 @@ class Default extends React.Component {
           <h2>통계</h2>
           }
           {this.getCurrentRoute()[1]==='order' &&
-	  <div>
-          <h2>주문</h2>
-          <Nav activeKey={this.getCurrentRoute()[2]} className="nav-tabs">
-            <NavItem eventKey={"request"} href="/order/request">입력</NavItem>
-            <NavItem eventKey={"list"} href="/order/list">내역</NavItem>
-            <NavItem eventKey={"verify"} href="/order/verify">처리</NavItem>
-          </Nav>
-	  </div>
+	        <div>
+            <h2>주문</h2>
+            <Nav className="nav-tabs">
+              <Link to="/order/request"> <NavItem className={this.activeRoute("/order/request")} href="/order/request">입력</NavItem> </Link>
+              <Link to="/order/list"> <NavItem className={this.activeRoute("/order/list")} href="/order/list">내역</NavItem> </Link>
+              <Link to="/order/verify"> <NavItem className={this.activeRoute("/order/verify")}href="/order/verify">처리</NavItem> </Link>
+            </Nav>
+	        </div>
           }
           {this.getCurrentRoute()[1]==='manage' &&
-	  <div>
-          <h2>설정</h2>
-          <Nav activeKey={this.getCurrentRoute()[2]} className="nav-tabs">
-            <NavItem eventKey={"menu"} href="/manage/menu">메뉴</NavItem>
-            <NavItem eventKey={"setmenu"} href="/manage/setmenu">세트메뉴</NavItem>
-            <NavItem eventKey={"member_and_group"} href="/manage/member_and_group">그룹</NavItem>
-          </Nav>
-	  </div>
+	        <div>
+            <h2>설정</h2>
+            <Nav className="nav-tabs">
+              <Link to="/manage/menu"><NavItem className={this.activeRoute("/manage/menu")} href="/manage/menu">메뉴</NavItem></Link>
+              <Link to="/manage/setmenu"><NavItem className={this.activeRoute("/manage/setmenu")} href="/manage/setmenu">세트메뉴</NavItem></Link>
+              <Link to="/manage/group_and_member"><NavItem className={this.activeRoute("/manage/group_and_member")} href="/manage/group_and_member">그룹</NavItem></Link>
+            </Nav>
+	        </div>
           }
-  	  <Button href="/guide" bsStyle="link" bsSize="large" style={{float:'right'}}><Glyphicon glyph="question-sign"/></Button>
-	  </div>
-	</div>
+  	      <Button href="/guide" bsStyle="link" bsSize="large" style={{float:'right'}}><Glyphicon glyph="question-sign"/></Button>
+	       </div>
+	      </div>
       </div>
       <br/><br/>
       {this.props.children}
       {this.props.jwt !== null &&
       <div className="footer">
-	<div className="container">
-  	  <br/><br/>
-  	  <p className="text-center" style={{color:'black'}}><Glyphicon glyph="copyright-mark" ></Glyphicon> 2014-2017. 한양대학교 <b>한기훈</b> All Rights Reserved.</p>
-          <br/>
-        </div>
+	     <div className="container">
+  	    <br/><br/>
+  	    <p className="text-center" style={{color:'black'}}><Glyphicon glyph="copyright-mark" ></Glyphicon> 2014-2017. 한양대학교 <b>한기훈</b> All Rights Reserved.</p>
+        <br/>
+       </div>
       </div>
       }
     </div>
