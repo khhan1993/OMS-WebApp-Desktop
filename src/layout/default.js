@@ -226,7 +226,7 @@ class Default extends React.Component {
             </Nav>
 	        </div>
           }
-  	      <Button href="/guide" bsStyle="link" bsSize="large" style={{float:'right'}}><Glyphicon glyph="question-sign"/></Button>
+  	      <Link to="/qna"><Button href="/guide" bsStyle="link" bsSize="large" style={{float:'right'}}><Glyphicon glyph="question-sign"/></Button></Link>
 	       </div>
 	      </div>
       </div>
