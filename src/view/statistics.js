@@ -84,7 +84,7 @@ class Statistics extends React.Component {
       datasets: [
         {
           label: "주문 횟수",
-          fill: false,
+          fill: true,
           lineTension: 0.1,
           backgroundColor: "rgba(0,255,0,1)",
           borderColor: "rgba(0,255,0,1)",
