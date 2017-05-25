@@ -76,15 +76,17 @@ class Queue extends React.Component {
 
   visualizeQueue(queueItem) {
     let temp_queue = queueItem.queue.slice(0);
-    while(temp_queue.length > 5) {
-      temp_queue.pop();
-    }
+    /* 임시 비활성화 -> Queue에 있는 모든 내용을 다 보여준다.
+     while(temp_queue.length > 5) {
+     temp_queue.pop();
+     }
 
-    if(queueItem.queue.length > 5) {
-      temp_queue.push({
-        "no_more": true
-      });
-    }
+     if(queueItem.queue.length > 5) {
+     temp_queue.push({
+     "no_more": true
+     });
+     }
+     */
 
     return temp_queue.map((item) => {
       if(item['no_more'] === true) {
@@ -110,15 +112,17 @@ class Queue extends React.Component {
 
   visualizeQueueMobile(queueItem) {
     let temp_queue = queueItem.queue.slice(0);
-    while(temp_queue.length > 1) {
-      temp_queue.pop();
-    }
+    /* 임시 비활성화 -> Queue에 있는 모든 내용을 다 보여준다.
+     while(temp_queue.length > 1) {
+     temp_queue.pop();
+     }
 
-    if(queueItem.queue.length > 1) {
-      temp_queue.push({
-        "no_more": true
-      });
-    }
+     if(queueItem.queue.length > 1) {
+     temp_queue.push({
+     "no_more": true
+     });
+     }
+     */
 
     return temp_queue.map((item) => {
       if(item['no_more'] === true) {
