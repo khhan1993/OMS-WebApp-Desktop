@@ -138,6 +138,11 @@ class ManageMember extends React.Component {
     }
   };
 
+  downloadOrderList = () => {
+    let url = this.props.api_url + "/api/download?jwt=" + this.props.jwt + "&group_id=" + this.props.group_id + "&type=orders"
+    window.open(url);
+  };
+
   render() {
     let member_list = this.state.member_list.map((member) =>
       <Table.Row key={member.id}>
@@ -217,6 +222,10 @@ class ManageMember extends React.Component {
               <hr/>
 
               <Button fluid type='button' color="red" onClick={(e) => this.disableGroup()}>그룹 삭제</Button>
+
+              <hr />
+
+              <Button fluid type='button' color="green" onClick={(e) => this.downloadOrderList()}>전체 주문 내역 다운로드</Button>
             </Segment>
           </Grid.Column>
         </Grid.Row>
@@ -264,6 +273,10 @@ class ManageMember extends React.Component {
               <hr/>
 
               <Button fluid type='button' color="red" onClick={(e) => this.disableGroup()}>그룹 삭제</Button>
+
+              <hr />
+
+              <Button fluid type='button' color="green" onClick={(e) => this.downloadOrderList()}>주문 내역 다운로드</Button>
             </Segment>
           </Grid.Column>
         </Grid.Row>
