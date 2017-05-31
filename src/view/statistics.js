@@ -108,7 +108,7 @@ class Statistics extends React.Component {
     };
   };
 
-  generateSalesPerMenu = () => {
+  generateSalesRatePerMenu = () => {
     let labels = [];
     let sales_data = [];
 
@@ -246,7 +246,7 @@ class Statistics extends React.Component {
 
               <Header as="h3" textAlign="center">메뉴별 판매량</Header>
 
-              <Bar data={this.generateSalesPerMenu()} height={50} />
+              <Bar data={this.generateSalesRatePerMenu()} height={50} />
             </Segment>
 
             <Segment>
