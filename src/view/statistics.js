@@ -134,7 +134,7 @@ class Statistics extends React.Component {
       labels: labels,
       datasets: [
         {
-          label: "판매 수량",
+          label: "판매 비율 (%)",
           fill: false,
           lineTension: 0.1,
           backgroundColor: "rgba(75,192,192,0.4)",
