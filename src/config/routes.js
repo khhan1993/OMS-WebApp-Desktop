@@ -13,6 +13,7 @@ import ManageMenuView from '../view/manage/menu';
 import ManageSetmenuView from '../view/manage/setmenu';
 import ManageGroupAndMemberView from '../view/manage/group_and_member';
 import StatisticsView from '../view/statistics';
+import QnaView from '../view/qna';
 
 export default (
   <Router history={browserHistory}>
@@ -29,8 +30,9 @@ export default (
       <Route path="manage">
         <Route path="menu" component={ManageMenuView} />
         <Route path="setmenu" component={ManageSetmenuView} />
-        <Route path="member_and_group" component={ManageGroupAndMemberView} />
+        <Route path="group_and_member" component={ManageGroupAndMemberView} />
       </Route>
+      <Route path="qna" component={QnaView}/>
       <IndexRedirect to="main" />
     </Route>
   </Router>
